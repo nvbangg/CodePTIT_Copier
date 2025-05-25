@@ -57,4 +57,3 @@ Buoc 1: 1 8 5 9 3 4
 - Mở settings bằng cách: Nhấn vào Tampermonkey (hoặc click chuột phải) **khi ở trang `https://code.ptit.edu.vn`**, sau đó nhấn vào mục `Settings` trong mục `CodePTIT Copier`
 
 ![image](https://github.com/user-attachments/assets/706fb1c3-b832-4b13-8505-a7a7213ea3c6)
-
