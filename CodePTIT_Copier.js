@@ -163,7 +163,7 @@
       <div class="settings-group"><label>Kiểu chữ: <select id="textCase" class="settings-select">${createOptions(OPTIONS.textCase, settings.textCase)}</select></label></div>
       <div class="settings-group"><label>Khoảng cách: <select id="separator" class="settings-select">${createOptions(OPTIONS.separator, settings.separator)}</select></label></div>
       <div class="settings-buttons"><button class="settings-btn-reset">Reset</button><button class="settings-btn-save">Lưu</button></div>
-      <div class="settings-footer">CodePTIT Copier v1.1 <a href="https://github.com/nvbangg/CodePTIT_Copier" target="_blank">github.com/nvbangg/CodePTIT</a></div>
+      <div class="settings-footer">CodePTIT Copier v1.1 <a href="https://github.com/nvbangg/CodePTIT_Copier" target="_blank">github.com/nvbangg/CodePTIT_Copier</a></div>
     </div>`;
 
     document.body.appendChild(overlay);
