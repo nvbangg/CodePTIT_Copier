@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         CodePTIT Copier
-// @namespace    https://github.com/nvbangg/CodePTIT
+// @namespace    https://github.com/nvbangg/CodePTIT_Copier
 // @version      1.1
 // @description  Script CodePTIT Copier. Xóa dòng trống thừa khi copy Testcase. Tạo nút Copy nhanh Testcase và Mã bài_Tên bài đã Xóa dấu tiếng việt cùng khoảng trắng trên CodePTIT (cả phiên bản cũ và mới)
 // @author       nvbangg (https://github.com/nvbangg)
 // @copyright    Copyright (c) 2025 Nguyễn Văn Bằng (nvbangg, github.com/nvbangg)
-// @homepage     https://github.com/nvbangg/CodePTIT
+// @homepage     https://github.com/nvbangg/CodePTIT_Copier
 // @match        https://code.ptit.edu.vn/student/question*
 // @match        https://code.ptit.edu.vn/beta*
 // @icon         https://code.ptit.edu.vn/favicon.ico
@@ -163,7 +163,7 @@
       <div class="settings-group"><label>Kiểu chữ: <select id="textCase" class="settings-select">${createOptions(OPTIONS.textCase, settings.textCase)}</select></label></div>
       <div class="settings-group"><label>Khoảng cách: <select id="separator" class="settings-select">${createOptions(OPTIONS.separator, settings.separator)}</select></label></div>
       <div class="settings-buttons"><button class="settings-btn-reset">Reset</button><button class="settings-btn-save">Lưu</button></div>
-      <div class="settings-footer">CodePTIT Copier v1.1 <a href="https://github.com/nvbangg/CodePTIT" target="_blank">github.com/nvbangg/CodePTIT</a></div>
+      <div class="settings-footer">CodePTIT Copier v1.1 <a href="https://github.com/nvbangg/CodePTIT_Copier" target="_blank">github.com/nvbangg/CodePTIT</a></div>
     </div>`;
 
     document.body.appendChild(overlay);

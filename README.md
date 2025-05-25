@@ -20,7 +20,7 @@
   - Hoặc cài tại: https://greasyfork.org/vi/scripts/536045-codeptit-copier
 - Bước 3: **_Follow me👀 và Tặng 1 sao⭐ trên Github nếu thấy hay❤️_**: [![Follow](https://img.shields.io/github/followers/nvbangg?label=Follow&style=social)](https://github.com/nvbangg) [![Stars](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?style=social)](https://github.com/nvbangg/CodePTIT_Copier)
 
-![star](star.gif)
+![star](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/star.gif)
 
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier&countColor=%232ccce4)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier)
 
