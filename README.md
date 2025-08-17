@@ -1,5 +1,3 @@
-# CodePTIT Copier
-
 Script CodePTIT Copier. Xóa dòng trống thừa và copy nhanh Testcase trên CodePTIT (bản cũ lẫn mới).
 
 ## TÍNH NĂNG:
