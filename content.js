@@ -1,28 +1,6 @@
-// ==UserScript==
-// @name         CodePTIT Copier
-// @namespace    https://github.com/nvbangg/CodePTIT_Copier
-// @version      1.3.1
-// @description  Script CodePTIT Copier. Xóa dòng trống thừa và copy nhanh Testcase trên CodePTIT (bản cũ lẫn mới).
-// @author       nvbangg (https://github.com/nvbangg)
-// @copyright    Copyright (c) 2025 Nguyễn Văn Bằng (nvbangg, github.com/nvbangg)
-// @homepage     https://github.com/nvbangg/CodePTIT_Copier
-// @match        https://code.ptit.edu.vn/student/question*
-// @match        https://code.ptit.edu.vn/beta*
-// @icon         https://code.ptit.edu.vn/favicon.ico
-// @grant        GM_setClipboard
-// @grant        GM_addStyle
-// @run-at       document-start
-// @license      MIT
-// @downloadURL https://update.greasyfork.org/scripts/536045/CodePTIT%20Copier.user.js
-// @updateURL https://update.greasyfork.org/scripts/536045/CodePTIT%20Copier.meta.js
-// ==/UserScript==
-
-//! HÃY XEM HƯỚNG DẪN TẠI: https://github.com/nvbangg/CodePTIT_Copier
-
 (() => {
   "use strict";
-  // Định dạng đuôi file khi copy Mã bài_Tên bài
-  const FILE_TYPE = "."; //thay bằng ".cpp" nếu luôn tạo file .cpp
+  const FILE_TYPE = ""; // Thay bằng ".cpp" nếu luôn tạo file .cpp
   const WORD_SEPARATOR = ""; // Thay đổi phân cách sang "_" nếu muốn
   const ICONS = {
     copy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1-2 2v1"/></svg>',
@@ -32,15 +10,17 @@
       '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1-2 2v1"/><path d="M2 2h5v2"/></svg>',
   };
 
-  GM_addStyle(`
+  const addStyles = () => {
+    const style = document.createElement("style");
+    style.textContent = `
   .copy-btn,.title-copy-btn,.row-copy-btn{background:rgba(30,144,255,.5);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:3px;padding:2px;position:relative;outline:none!important;user-select:none}
   .copy-btn{position:absolute;top:0;right:0}
   .title-copy-btn{margin-right:5px;vertical-align:middle}
   .row-copy-btn{position:absolute;left:-23px;top:0;background:rgba(255,165,0,.7);z-index:100}
-  .row-copy-tooltip{position:absolute;bottom:100%;left:0;margin-bottom:8px;background:rgba(0,0,0,.8);color:white;padding:4px 6px;font-size:11px;white-space:nowrap;display:none;z-index:1000}
-  .row-copy-btn.show-tooltip .row-copy-tooltip{display:block}
   .copied{background:rgba(50,205,50,1)!important}
-`);
+`;
+    document.head.appendChild(style);
+  };
 
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
@@ -69,27 +49,9 @@
     }, duration);
   };
 
-  const addTooltip = (btn) => {
-    let timer,
-      isHovering = false;
-    btn.addEventListener("mouseenter", () => {
-      isHovering = true;
-      btn.classList.remove("show-tooltip");
-      timer = setTimeout(
-        () => isHovering && btn.classList.add("show-tooltip"),
-        1000
-      );
-    });
-    btn.addEventListener("mouseleave", () => {
-      isHovering = false;
-      clearTimeout(timer);
-      btn.classList.remove("show-tooltip");
-    });
-  };
-
   const copy = (text, button) => {
     try {
-      GM_setClipboard(text, "text");
+      navigator.clipboard.writeText(text);
       showCopied(button);
       return true;
     } catch (e) {
@@ -103,8 +65,11 @@
     if (cells.length < 2) return false;
     const [input, output] = [getTestcase(cells[0]), getTestcase(cells[1])];
     if (!input.trim() && !output.trim()) return false;
-    input.trim() && GM_setClipboard(input, "text");
-    setTimeout(() => output.trim() && GM_setClipboard(output, "text"), 400);
+    input.trim() && navigator.clipboard.writeText(input);
+    setTimeout(
+      () => output.trim() && navigator.clipboard.writeText(output),
+      400
+    );
     return showCopied(button, 1000), true;
   };
 
@@ -129,7 +94,7 @@
       )
       .trimEnd();
 
-  const createButton = (type, onClick, extraContent = "") => {
+  const createButton = (type, onClick) => {
     const btn = document.createElement("button");
     btn.className =
       type === "title"
@@ -137,8 +102,7 @@
         : type === "row"
         ? "row-copy-btn"
         : "copy-btn";
-    btn.innerHTML = type === "row" ? ICONS.rowCopy + extraContent : ICONS.copy;
-    if (type === "row") addTooltip(btn);
+    btn.innerHTML = type === "row" ? ICONS.rowCopy : ICONS.copy;
     btn.addEventListener("click", onClick);
     return btn;
   };
@@ -192,8 +156,7 @@
     cells[0].appendChild(
       createButton(
         "row",
-        (e) => (preventEvent(e), copyRow(row, e.currentTarget)),
-        '<div class="row-copy-tooltip">Copy input và output để Paste nhanh bằng KeyClipboard</div>'
+        (e) => (preventEvent(e), copyRow(row, e.currentTarget))
       )
     );
   };
@@ -264,9 +227,9 @@
 
   const process = () => {
     const beta = isBeta();
-    return (
-      cleanup(), beta ? processBetaPage() : processLegacyPage(), convertPtoDiv()
-    );
+    cleanup();
+    beta ? processBetaPage() : processLegacyPage();
+    convertPtoDiv();
   };
 
   const observer = new MutationObserver(
@@ -274,14 +237,18 @@
       () =>
         observer.lastUrl !== location.href
           ? ((observer.lastUrl = location.href), process())
-          : ((beta) => (beta ? processBetaPage : processLegacyPage)(),
-            convertPtoDiv())(isBeta()),
+          : (() => {
+              const beta = isBeta();
+              (beta ? processBetaPage : processLegacyPage)();
+              convertPtoDiv();
+            })(),
       300
     )
   );
   observer.lastUrl = location.href;
 
   const start = () => {
+    addStyles();
     observer.observe(document.documentElement, {
       childList: true,
       subtree: true,
