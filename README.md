@@ -17,9 +17,10 @@ Script CodePTIT Copier. Xóa dòng trống thừa và copy nhanh Testcase trên 
 - Bước 2: Cài script tại: https://greasyfork.org/vi/scripts/536045-codeptit-copier
   - Hoặc cài tại: https://openuserjs.org/scripts/nvbangg/CodePTIT_Copier
 
+<img width="1153" height="753" alt="image" src="https://github.com/user-attachments/assets/0ea7e153-3168-400c-9143-207e3e555faa" />
 
 
-### Nhớ Follow👀 và Tặng sao⭐ trên Github nha❤️ 
+## Nhớ Follow👀 và Tặng sao⭐ trên Github nha❤️ 
  **Follow👀:** [![Follow](https://img.shields.io/github/followers/nvbangg?label=Follow&style=social)](https://github.com/nvbangg) | **Star⭐:** [![Star](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?style=social)](https://github.com/nvbangg/CodePTIT_Copier)
 
 ![Gif](https://raw.githubusercontent.com/nvbangg/nvbangg/main/data/star_follow.gif)
