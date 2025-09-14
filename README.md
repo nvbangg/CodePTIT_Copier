@@ -20,9 +20,9 @@ Script CodePTIT Copier. Xóa dòng trống thừa và copy nhanh Testcase trên 
 <img width="1153" height="753" alt="image" src="https://github.com/user-attachments/assets/0ea7e153-3168-400c-9143-207e3e555faa" />
 
 
-## Nhớ Follow👀 và Tặng sao⭐ trên Github nha❤️ 
- **Follow👀:** [![Follow](https://img.shields.io/github/followers/nvbangg?label=Follow&style=social)](https://github.com/nvbangg) | **Star⭐:** [![Star](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?style=social)](https://github.com/nvbangg/CodePTIT_Copier)
+
+## [![Follow](https://img.shields.io/github/followers/nvbangg?label=Follow%20my%20GitHub&logo=github)](https://github.com/nvbangg) [![Star](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo&logo=github)](https://github.com/nvbangg/CodePTIT_Copier)
 
 ![Gif](https://raw.githubusercontent.com/nvbangg/nvbangg/main/data/star_follow.gif)
 
-[![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier&countColor=%232ccce4)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier)
+[![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier&countColor=blue)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier)
