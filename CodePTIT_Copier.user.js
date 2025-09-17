@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CodePTIT Copier
 // @namespace    https://github.com/nvbangg/CodePTIT_Copier
-// @version      1.3
+// @version      1.3.1
 // @description  Script CodePTIT Copier. Xóa dòng trống thừa và copy nhanh Testcase trên CodePTIT (bản cũ lẫn mới).
 // @author       nvbangg (https://github.com/nvbangg)
 // @copyright    Copyright (c) 2025 Nguyễn Văn Bằng (nvbangg, github.com/nvbangg)
@@ -101,7 +101,7 @@
   const copyRow = (row, button) => {
     const cells = row.querySelectorAll("td");
     if (cells.length < 2) return false;
-    const [output, input] = [getTestcase(cells[0]), getTestcase(cells[1])];
+    const [input, output] = [getTestcase(cells[0]), getTestcase(cells[1])];
     if (!input.trim() && !output.trim()) return false;
     input.trim() && GM_setClipboard(input, "text");
     setTimeout(() => output.trim() && GM_setClipboard(output, "text"), 400);
