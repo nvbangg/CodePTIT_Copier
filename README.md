@@ -11,7 +11,7 @@ Xóa dòng trống thừa và copy nhanh Testcase, Mã bài + Tên bài được
 
 ## CÁCH CÀI ĐẶT:
 
-- Cài extension tại Chrome store: [CodePTIT_Copier]()
+- Cài extension tại Chrome store: [CodePTIT_Copier](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
 
 - Hoặc cài bằng user script tại [Greasyfork](https://greasyfork.org/vi/scripts/536045-codeptit-copier) hoặc tại [Openuserjs](https://openuserjs.org/scripts/nvbangg/CodePTIT_Copier)
 
