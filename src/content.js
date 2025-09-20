@@ -1,24 +1,22 @@
 (() => {
   "use strict";
-  const FILE_TYPE = ""; // Thay bằng ".cpp" nếu luôn tạo file .cpp
   const WORD_SEPARATOR = ""; // Thay đổi phân cách sang "_" nếu muốn
   const ICONS = {
-    copy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1-2 2v1"/></svg>',
+    copy: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1-2 2v1"/></svg>',
     check:
-      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+      '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>',
     rowCopy:
-      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1-2 2v1"/><path d="M2 2h5v2"/></svg>',
+      '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1-2 2v1"/><path d="M2 2h5v2"/></svg>',
   };
 
   const addStyles = () => {
     const style = document.createElement("style");
     style.textContent = `
-  .copy-btn,.title-copy-btn,.row-copy-btn{background:rgba(30,144,255,.5);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:3px;padding:2px;position:relative;outline:none!important;user-select:none}
+  .copy-btn,.title-copy-btn,.row-copy-btn{background:rgba(30,144,255,.5);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:3px;padding:2px;position:relative;outline:none!important;user-select:none}
   .copy-btn{position:absolute;top:0;right:0}
-  .title-copy-btn{margin-right:5px;vertical-align:middle}
-  .row-copy-btn{position:absolute;left:-23px;top:0;background:rgba(255,165,0,.7);z-index:100}
-  .copied{background:rgba(50,205,50,1)!important}
-`;
+  .title-copy-btn{margin-right:8px;top:-2px;vertical-align:middle;display:inline-flex}
+  .row-copy-btn{position:absolute;left:-26px;top:0;background:rgba(255,165,0,.7);z-index:100}
+  .copied{background:rgba(50,205,50,1)!important} `;
     document.head.appendChild(style);
   };
 
@@ -30,47 +28,31 @@
   const setRelative = (el) =>
     window.getComputedStyle(el).position === "static" &&
     (el.style.position = "relative");
-  const isValidTestCase = (el) =>
-    hasText(el) && !el.querySelector(".copy-btn") && !el.closest("table");
-  const debounce = (fn, delay = 300) => {
-    let timer;
-    return (...args) => (
-      clearTimeout(timer), (timer = setTimeout(() => fn(...args), delay))
-    );
-  };
 
-  const showCopied = (button, duration = 800) => {
+  const showCopied = (button) => {
     const originalContent = button.innerHTML;
     button.innerHTML = ICONS.check;
     button.classList.add("copied");
     setTimeout(() => {
       button.innerHTML = originalContent;
       button.classList.remove("copied");
-    }, duration);
+    }, 800);
   };
 
-  const copy = (text, button) => {
-    try {
-      navigator.clipboard.writeText(text);
-      showCopied(button);
-      return true;
-    } catch (e) {
-      console.error("Copy failed:", e);
-      return false;
-    }
-  };
+  const copy = (text, button) => (
+    navigator.clipboard.writeText(text), showCopied(button)
+  );
 
   const copyRow = (row, button) => {
     const cells = row.querySelectorAll("td");
     if (cells.length < 2) return false;
     const [input, output] = [getTestcase(cells[0]), getTestcase(cells[1])];
-    if (!input.trim() && !output.trim()) return false;
     input.trim() && navigator.clipboard.writeText(input);
     setTimeout(
       () => output.trim() && navigator.clipboard.writeText(output),
       400
     );
-    return showCopied(button, 1000), true;
+    showCopied(button);
   };
 
   const formatTitle = (title) =>
@@ -87,7 +69,7 @@
           .replace(/ /g, WORD_SEPARATOR);
 
   const getTestcase = (cell) =>
-    (cell.querySelector("code, pre")?.innerText ?? cell.innerText ?? "")
+    (cell.innerText ?? "")
       .replace(
         /[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g,
         " "
@@ -107,7 +89,7 @@
     return btn;
   };
 
-  const addBtn = (cell) => {
+  const addCellBtn = (cell) => {
     if (!hasText(cell) || cell.dataset.copyAdded) return;
     setRelative(cell);
     cell.dataset.copyAdded = "true";
@@ -133,24 +115,18 @@
         preventEvent(e),
         (({ code, title }) =>
           (code || title) &&
-          copy(
-            `${code.trim()}_${formatTitle(title)}${FILE_TYPE}`,
-            e.currentTarget
-          ))(getProblem())
+          copy(`${code.trim()}_${formatTitle(title)}`, e.currentTarget))(
+          getProblem()
+        )
       )
     );
-    Object.assign(btn.style, {
-      marginRight: "8px",
-      verticalAlign: "middle",
-      display: "inline-flex",
-    });
     titleEl.insertBefore(btn, titleEl.firstChild);
   };
 
   const addRowBtn = (row) => {
     if (!row || row.dataset.rowCopyAdded) return;
     const cells = row.querySelectorAll("td");
-    if (cells.length < 2 || !hasText(cells[0])) return;
+    if (cells.length < 2 || !hasText(cells[0]) || !hasText(cells[1])) return;
     setRelative(cells[0]);
     row.dataset.rowCopyAdded = "true";
     cells[0].appendChild(
@@ -161,36 +137,33 @@
     );
   };
 
-  const getProblem = () =>
-    isBeta()
-      ? {
-          code: location.pathname.includes("/beta/problems/")
-            ? location.pathname.split("/").pop().toUpperCase()
-            : "",
-          title: ($("h1") || $("h2"))?.textContent?.trim() ?? "",
-        }
-      : ((a) =>
-          a
-            ? {
-                code: a.href.match(/\/([^\/]+)$/)?.[1] ?? "",
-                title: a.textContent?.trim() ?? "",
-              }
-            : { code: "", title: "" })($(".submit__nav p span a.link--red"));
+  const getProblem = () => {
+    const code = location.pathname.split("/").pop() ?? "";
+    if (isBeta()) {
+      return {
+        code,
+        title: $("h2")?.textContent?.trim() ?? "",
+      };
+    }
+    const titleLink = $(".submit__nav p span a.link--red");
+    return {
+      code,
+      title: titleLink?.textContent?.trim() ?? "",
+    };
+  };
 
-  // Chuyển p thành div trong tbody
+  // Chuyển thẻ p thành div trong tbody
   const convertPtoDiv = () =>
     $$("tbody p").forEach((p) => (p.outerHTML = `<div>${p.innerHTML}</div>`));
 
   const processLegacyPage = () => {
+    if (!/\/student\/question\/[A-Za-z0-9_]+/.test(location.pathname)) return;
     const titleElement = $(".submit__nav p span a.link--red");
     titleElement && addTitleBtn(titleElement);
     $$(".submit__des tr:not(:first-child)").forEach((row) => {
-      row.querySelectorAll("td").forEach(addBtn);
+      row.querySelectorAll("td").forEach(addCellBtn);
       addRowBtn(row);
     });
-    $$(".submit__des [class*='testcase']")
-      .filter(isValidTestCase)
-      .forEach(addBtn);
   };
 
   const processBetaPage = () => {
@@ -200,14 +173,13 @@
         .querySelectorAll("td")
         .forEach(
           (cell) =>
-            cell?.textContent?.trim() &&
+            hasText(cell) &&
             !cell.querySelector(".copy-btn") &&
-            addBtn(cell)
+            addCellBtn(cell)
         );
       addRowBtn(row);
     });
-    $$("[class*='testcase']").filter(isValidTestCase).forEach(addBtn);
-    const titleElement = $$("h1, h2").find(
+    const titleElement = $$("h2").find(
       (el) => hasText(el) && !el.parentElement?.querySelector(".title-copy-btn")
     );
     titleElement && addTitleBtn(titleElement);
@@ -232,19 +204,19 @@
     convertPtoDiv();
   };
 
-  const observer = new MutationObserver(
-    debounce(
-      () =>
-        observer.lastUrl !== location.href
-          ? ((observer.lastUrl = location.href), process())
-          : (() => {
-              const beta = isBeta();
-              (beta ? processBetaPage : processLegacyPage)();
-              convertPtoDiv();
-            })(),
-      300
-    )
-  );
+  let observerTimer;
+  const observer = new MutationObserver(() => {
+    clearTimeout(observerTimer);
+    observerTimer = setTimeout(() => {
+      observer.lastUrl !== location.href
+        ? ((observer.lastUrl = location.href), process())
+        : (() => {
+            const beta = isBeta();
+            (beta ? processBetaPage : processLegacyPage)();
+            convertPtoDiv();
+          })();
+    }, 300);
+  });
   observer.lastUrl = location.href;
 
   const start = () => {
