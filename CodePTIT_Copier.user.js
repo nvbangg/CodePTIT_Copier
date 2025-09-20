@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         CodePTIT Copier
 // @namespace    https://github.com/nvbangg/CodePTIT_Copier
-// @version      1.3.1
-// @description  Script CodePTIT Copier. Xóa dòng trống thừa và copy nhanh Testcase trên CodePTIT (bản cũ lẫn mới).
+// @version      1.4
+// @description  Xóa dòng trống thừa và copy nhanh Testcase, Mã bài + Tên bài được chuẩn hóa trên CodePTIT
 // @author       nvbangg (https://github.com/nvbangg)
 // @copyright    Copyright (c) 2025 Nguyễn Văn Bằng (nvbangg, github.com/nvbangg)
 // @homepage     https://github.com/nvbangg/CodePTIT_Copier
 // @match        https://code.ptit.edu.vn/student/question*
 // @match        https://code.ptit.edu.vn/beta*
-// @icon         https://code.ptit.edu.vn/favicon.ico
+// @icon         https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/icon.png
 // @grant        GM_setClipboard
 // @grant        GM_addStyle
 // @run-at       document-start
@@ -21,8 +21,7 @@
 
 (() => {
   "use strict";
-  // Định dạng đuôi file khi copy Mã bài_Tên bài
-  const FILE_TYPE = "."; //thay bằng ".cpp" nếu luôn tạo file .cpp
+  const FILE_TYPE = ""; // Thay bằng ".cpp" nếu luôn tạo file .cpp
   const WORD_SEPARATOR = ""; // Thay đổi phân cách sang "_" nếu muốn
   const ICONS = {
     copy: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1-2 2v1"/></svg>',
@@ -37,8 +36,6 @@
   .copy-btn{position:absolute;top:0;right:0}
   .title-copy-btn{margin-right:5px;vertical-align:middle}
   .row-copy-btn{position:absolute;left:-23px;top:0;background:rgba(255,165,0,.7);z-index:100}
-  .row-copy-tooltip{position:absolute;bottom:100%;left:0;margin-bottom:8px;background:rgba(0,0,0,.8);color:white;padding:4px 6px;font-size:11px;white-space:nowrap;display:none;z-index:1000}
-  .row-copy-btn.show-tooltip .row-copy-tooltip{display:block}
   .copied{background:rgba(50,205,50,1)!important}
 `);
 
@@ -67,24 +64,6 @@
       button.innerHTML = originalContent;
       button.classList.remove("copied");
     }, duration);
-  };
-
-  const addTooltip = (btn) => {
-    let timer,
-      isHovering = false;
-    btn.addEventListener("mouseenter", () => {
-      isHovering = true;
-      btn.classList.remove("show-tooltip");
-      timer = setTimeout(
-        () => isHovering && btn.classList.add("show-tooltip"),
-        1000
-      );
-    });
-    btn.addEventListener("mouseleave", () => {
-      isHovering = false;
-      clearTimeout(timer);
-      btn.classList.remove("show-tooltip");
-    });
   };
 
   const copy = (text, button) => {
@@ -129,7 +108,7 @@
       )
       .trimEnd();
 
-  const createButton = (type, onClick, extraContent = "") => {
+  const createButton = (type, onClick) => {
     const btn = document.createElement("button");
     btn.className =
       type === "title"
@@ -137,8 +116,7 @@
         : type === "row"
         ? "row-copy-btn"
         : "copy-btn";
-    btn.innerHTML = type === "row" ? ICONS.rowCopy + extraContent : ICONS.copy;
-    if (type === "row") addTooltip(btn);
+    btn.innerHTML = type === "row" ? ICONS.rowCopy : ICONS.copy;
     btn.addEventListener("click", onClick);
     return btn;
   };
@@ -192,8 +170,7 @@
     cells[0].appendChild(
       createButton(
         "row",
-        (e) => (preventEvent(e), copyRow(row, e.currentTarget)),
-        '<div class="row-copy-tooltip">Copy input và output để Paste nhanh bằng KeyClipboard</div>'
+        (e) => (preventEvent(e), copyRow(row, e.currentTarget))
       )
     );
   };
@@ -264,9 +241,9 @@
 
   const process = () => {
     const beta = isBeta();
-    return (
-      cleanup(), beta ? processBetaPage() : processLegacyPage(), convertPtoDiv()
-    );
+    cleanup();
+    beta ? processBetaPage() : processLegacyPage();
+    convertPtoDiv();
   };
 
   const observer = new MutationObserver(
@@ -274,8 +251,11 @@
       () =>
         observer.lastUrl !== location.href
           ? ((observer.lastUrl = location.href), process())
-          : ((beta) => (beta ? processBetaPage : processLegacyPage)(),
-            convertPtoDiv())(isBeta()),
+          : (() => {
+              const beta = isBeta();
+              (beta ? processBetaPage : processLegacyPage)();
+              convertPtoDiv();
+            })(),
       300
     )
   );

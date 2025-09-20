@@ -18,4 +18,4 @@
 - Does not read or upload your existing clipboard contents
 
 ## Contact
-Questions? Visit the project repository: https://github.com/nvbangg/CodePTIT_Copier
+Questions? Contact: nvbangg@gmail.com
