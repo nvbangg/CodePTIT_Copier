@@ -15,12 +15,13 @@ Xóa dòng trống thừa và copy nhanh Testcase, Mã bài + Tên bài được
 
 - Hoặc cài bằng user script tại [Greasyfork](https://greasyfork.org/vi/scripts/536045-codeptit-copier) hoặc tại [Openuserjs](https://openuserjs.org/scripts/nvbangg/CodePTIT_Copier)
 
-![Demo1](image/demo1.png)
-![Demo1](image/demo2.png)
+![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/image/demo1.png)
+![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/image/demo2.png)
 
-
-## [![Follow](https://img.shields.io/github/followers/nvbangg?label=Follow%20my%20GitHub&logo=github)](https://github.com/nvbangg) [![Star](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo&logo=github)](https://github.com/nvbangg/CodePTIT_Copier)
-
-![Gif](https://raw.githubusercontent.com/nvbangg/nvbangg/main/data/star_follow.gif)
-
-[![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier&countColor=blue)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier)
+<div align="center">
+    <a href="https://github.com/nvbangg"><img src="https://img.shields.io/github/followers/nvbangg?label=Follow%20my%20GitHub&logo=github" height="23" style="margin-right:10px; border-radius:10px;"></a>
+    <a href="https://github.com/nvbangg/CodePTIT_Copier"><img src="https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo&logo=github" height="23" style="margin-right:10px; border-radius:10px;"></a>
+    <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier&countColor=blue&textColor=000000" height="23" style="border-radius:10px;">
+    <br>
+    <img src="https://raw.githubusercontent.com/nvbangg/nvbangg/main/data/star_follow.gif" height="150" style="border-radius:10px;">
+</div>
