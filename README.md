@@ -15,8 +15,8 @@ Xóa dòng trống thừa và copy nhanh Testcase, Mã bài + Tên bài được
 
 - Hoặc cài bằng user script tại [Greasyfork](https://greasyfork.org/vi/scripts/536045-codeptit-copier) hoặc tại [Openuserjs](https://openuserjs.org/scripts/nvbangg/CodePTIT_Copier)
 
-![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/image/demo1.png)
-![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/image/demo2.png)
+![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo1.png)
+![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo2.png)
 
 <div align="center">
     <a href="https://github.com/nvbangg"><img src="https://img.shields.io/github/followers/nvbangg?label=Follow%20my%20GitHub&logo=github" height="23" style="margin-right:10px; border-radius:10px;"></a>

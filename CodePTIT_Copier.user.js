@@ -8,7 +8,7 @@
 // @homepage     https://github.com/nvbangg/CodePTIT_Copier
 // @match        https://code.ptit.edu.vn/student/question*
 // @match        https://code.ptit.edu.vn/beta*
-// @icon         https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/icon.png
+// @icon         https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/src/icon.png
 // @grant        GM_setClipboard
 // @grant        GM_addStyle
 // @run-at       document-start
