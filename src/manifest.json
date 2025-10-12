@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CodePTIT Copier",
-  "version": "1.4",
+  "version": "1.4.1",
   "description": "Xóa dòng trống thừa và copy nhanh Testcase, Mã bài + Tên bài được chuẩn hóa trên CodePTIT",
   "author": "nvbangg (https://github.com/nvbangg)",
   "homepage_url": "https://github.com/nvbangg/CodePTIT_Copier",
@@ -21,8 +21,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://code.ptit.edu.vn/student/question*",
-        "https://code.ptit.edu.vn/beta*"
+        "https://code.ptit.edu.vn/student/question/*",
+        "https://code.ptit.edu.vn/beta/problems/*"
       ],
       "js": ["content.js"],
       "run_at": "document_start"
