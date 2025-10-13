@@ -1,28 +1,28 @@
 (() => {
   "use strict";
-  const WORD_SEPARATOR = ""; // Thay đổi phân cách sang "_" nếu muốn
+  let WORD_SEPARATOR = "";
   const ICONS = {
-    copy: '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1-2 2v1"/></svg>',
+    copy: '<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h10a2 2 0 0 1 2 2v10"/><rect x="3" y="8" width="13" height="13" rx="2"/></svg>',
     check:
-      '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+      '<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
     rowCopy:
-      '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1-2 2v1"/><path d="M2 2h5v2"/></svg>',
+      '<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h10a2 2 0 0 1 2 2v10"/><rect x="3" y="8" width="13" height="13" rx="2"/><path d="M7 13h7"/><path d="M7 17h6"/></svg>',
   };
 
   const addStyles = () => {
     const style = document.createElement("style");
     style.textContent = `
-  .copy-btn,.title-copy-btn,.row-copy-btn{background:rgba(30,144,255,.5);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:3px;padding:2px;position:relative;outline:none!important;user-select:none}
+  .copy-btn,.title-copy-btn,.row-copy-btn{background:rgba(30,144,255,.4);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:25px;height:25px;border-radius:5px;padding:2px;position:relative;outline:none!important;user-select:none}
   .copy-btn{position:absolute;top:0;right:0}
-  .title-copy-btn{margin-right:8px;top:-2px;vertical-align:middle;display:inline-flex}
-  .row-copy-btn{position:absolute;left:-26px;top:0;background:rgba(255,165,0,.7);z-index:100}
-  .copied{background:rgba(50,205,50,1)!important} `;
+  .title-copy-btn{margin-right:8px;top:-3px;display:inline-flex;vertical-align:middle}
+  .row-copy-btn{position:absolute;left:-26px;top:0;background:rgba(255,165,0,.5)}
+  .copied{background:rgba(50,205,50,1)!important}`;
     document.head.appendChild(style);
   };
 
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
-  const isBeta = () => location.pathname.includes("/beta");
+  const isBeta = () => location.pathname.includes("/beta/problems");
   const hasText = (el) => el?.textContent?.trim();
   const preventEvent = (e) => (e.preventDefault(), e.stopPropagation());
   const setRelative = (el) =>
@@ -113,11 +113,13 @@
       "title",
       (e) => (
         preventEvent(e),
-        (({ code, title }) =>
-          (code || title) &&
-          copy(`${code.trim()}_${formatTitle(title)}`, e.currentTarget))(
-          getProblem()
-        )
+        (({ code, title }) => {
+          const joiner = WORD_SEPARATOR || "_";
+          const name = [code.trim(), formatTitle(title)]
+            .filter(Boolean)
+            .join(joiner);
+          name && copy(name, e.currentTarget);
+        })(getProblem())
       )
     );
     titleEl.insertBefore(btn, titleEl.firstChild);
@@ -215,11 +217,21 @@
             (beta ? processBetaPage : processLegacyPage)();
             convertPtoDiv();
           })();
-    }, 300);
+    }, 500);
   });
   observer.lastUrl = location.href;
 
-  const start = () => {
+  const loadSettings = async () => {
+    try {
+      const result = await chrome.storage.sync.get({ useUnderscore: false });
+      WORD_SEPARATOR = result.useUnderscore ? "_" : "";
+    } catch {
+      WORD_SEPARATOR = "";
+    }
+  };
+
+  const start = async () => {
+    await loadSettings();
     addStyles();
     observer.observe(document.documentElement, {
       childList: true,
