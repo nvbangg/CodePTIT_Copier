@@ -11,9 +11,9 @@ Sửa lỗi dòng trống thừa khi copy trên CodePTIT. Tạo nút copy nhanh 
 
 ## ⬇️ CÁCH CÀI ĐẶT:
 
-- 🌐 Cài từ Chrome Web Store: [CodePTIT_Copier](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
+- 🌐 Cài từ **Chrome Web Store**: **[CodePTIT_Copier](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)**
 
-- Hoặc cài như user script từ [Greasyfork](https://greasyfork.org/vi/scripts/536045-codeptit-copier)
+- Hoặc cài như user script từ [Greasyfork](https://greasyfork.org/vi/scripts/536045-codeptit-copier) (hạn chế tính năng, không có settings)
 
 ![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo1.png)
 ![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo2.png)
