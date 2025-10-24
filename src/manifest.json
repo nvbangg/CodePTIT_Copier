@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
   "name": "CodePTIT Copier",
-  "version": "1.5",
+  "version": "1.6",
   "description": "Sửa lỗi dòng trống thừa khi copy trên CodePTIT. Tạo nút copy nhanh Testcase và Mã bài + Tên bài được chuẩn hóa",
   "author": "nvbangg (https://github.com/nvbangg)",
-  "homepage_url": "https://github.com/nvbangg/CodePTIT_Copier",
+  "homepage_url": "https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo",
 
   "action": {
     "default_title": "CodePTIT Copier",
