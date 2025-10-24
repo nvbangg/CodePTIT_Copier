@@ -1,8 +1,9 @@
 # CodePTIT Copier
 
+> [!NOTE]
 > Sửa lỗi dòng trống thừa khi copy trên CodePTIT. Tạo nút copy nhanh Testcase và Mã bài + Tên bài được chuẩn hóa
 
-[![Available in the Chrome Web Store](https://nvbangg.github.io/assets/images/chrome_webstore.png)](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
+[![Homepage](https://img.shields.io/badge/Homepage-github-blue?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier)](https://github.com/nvbangg/CodePTIT_Copier) [![Available in the Chrome Web Store](https://nvbangg.github.io/assets/images/chrome_webstore.png)](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
 
 ## 📌 TÍNH NĂNG:
 
@@ -39,4 +40,4 @@
 ## 📄 License
 
 - Copyright (c) 2025 Nguyễn Văn Bằng (nvbangg, [github.com/nvbangg](https://github.com/nvbangg))
-- Licensed under the [GNU General Public License v3.0](./LICENSE) 
+- Licensed under the [GNU General Public License v3.0](https://github.com/nvbangg/CodePTIT_Copier/blob/main/LICENSE)
