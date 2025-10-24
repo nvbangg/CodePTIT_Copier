@@ -1,17 +1,17 @@
 // ==UserScript==
 // @name         CodePTIT Copier
 // @namespace    https://github.com/nvbangg/CodePTIT_Copier
-// @version      1.4.5
+// @version      1.5
 // @description  Sửa lỗi dòng trống thừa khi copy trên CodePTIT. Tạo nút copy nhanh Testcase và Mã bài + Tên bài được chuẩn hóa
 // @author       nvbangg (https://github.com/nvbangg)
 // @copyright    Copyright (c) 2025 Nguyễn Văn Bằng (nvbangg, github.com/nvbangg)
 // @homepage     https://github.com/nvbangg/CodePTIT_Copier
-// @homepageURL  https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo
+// @homepage     https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo
 // @match        https://code.ptit.edu.vn/*
 // @icon         https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/src/icon.png
 // @grant        GM_registerMenuCommand
 // @run-at       document-start
-// @license      MIT
+// @license      GPL-3.0
 // @downloadURL https://update.greasyfork.org/scripts/536045/CodePTIT%20Copier.user.js
 // @updateURL https://update.greasyfork.org/scripts/536045/CodePTIT%20Copier.meta.js
 // ==/UserScript==

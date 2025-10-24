@@ -1,6 +1,8 @@
 # CodePTIT Copier
 
-Sửa lỗi dòng trống thừa khi copy trên CodePTIT. Tạo nút copy nhanh Testcase và Mã bài + Tên bài được chuẩn hóa
+> Sửa lỗi dòng trống thừa khi copy trên CodePTIT. Tạo nút copy nhanh Testcase và Mã bài + Tên bài được chuẩn hóa
+
+[![Available in the Chrome Web Store](https://nvbangg.github.io/assets/images/chrome_webstore.png)](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
 
 ## 📌 TÍNH NĂNG:
 
@@ -11,17 +13,30 @@ Sửa lỗi dòng trống thừa khi copy trên CodePTIT. Tạo nút copy nhanh 
 
 ## ⬇️ CÁCH CÀI ĐẶT:
 
-- 🌐 Cài từ **Chrome Web Store**: **[CodePTIT_Copier](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)**
+- 🌐 Cài từ **Chrome Web Store**: [CodePTIT_Copier](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
 
 - Hoặc cài như user script từ [Greasyfork](https://greasyfork.org/vi/scripts/536045-codeptit-copier) (hạn chế tính năng, không có settings)
-
-![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo1.png)
-![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo2.png)
 
 <div align="center">
     <a href="https://github.com/nvbangg"><img src="https://img.shields.io/github/followers/nvbangg?label=Follow%20my%20GitHub&logo=github"></a>
     <a href="https://github.com/nvbangg/CodePTIT_Copier"><img src="https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo&logo=github"></a>
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier&countColor=blue&textColor=000000" height="20">
     <br>
-    <img src="https://raw.githubusercontent.com/nvbangg/nvbangg/main/data/star_follow.gif" height="150">
+    <img src="https://nvbangg.github.io/assets/gifs/follow_star_github.gif" height="100">
 </div>
+
+<br>
+
+![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo1.png)
+![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo2.png)
+
+---
+## 🔒 Privacy Policy
+
+- We do not collect or use any personal data from users
+- All user settings are stored locally in the user's browser
+
+## 📄 License
+
+- Copyright (c) 2025 Nguyễn Văn Bằng (nvbangg, [github.com/nvbangg](https://github.com/nvbangg))
+- Licensed under the [GNU General Public License v3.0](./LICENSE) 
