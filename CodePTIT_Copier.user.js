@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         CodePTIT Copier
 // @namespace    https://github.com/nvbangg/CodePTIT_Copier
-// @version      1.5
+// @version      1.6
 // @description  Sửa lỗi dòng trống thừa khi copy trên CodePTIT. Tạo nút copy nhanh Testcase và Mã bài + Tên bài được chuẩn hóa
 // @author       nvbangg (https://github.com/nvbangg)
 // @copyright    Copyright (c) 2025 Nguyễn Văn Bằng (nvbangg, github.com/nvbangg)
 // @homepage     https://github.com/nvbangg/CodePTIT_Copier
 // @homepage     https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo
 // @match        https://code.ptit.edu.vn/*
+// @match        https://db.ptit.edu.vn/*
 // @icon         https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/src/icon.png
 // @grant        GM_registerMenuCommand
 // @run-at       document-start
@@ -36,7 +37,7 @@
   const addStyles = () => {
     const style = document.createElement("style");
     style.textContent = `
-  .copy-btn,.title-copy-btn,.row-copy-btn{background:rgba(30,144,255,.4);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:25px;height:25px;border-radius:5px;padding:2px;position:relative;outline:none!important;user-select:none}
+  .copy-btn,.title-copy-btn,.row-copy-btn{background:rgba(30,144,255,.4);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:5px;padding:2px;position:relative;outline:none!important;user-select:none}
   .copy-btn{position:absolute;top:0;right:0}
   .title-copy-btn{margin-right:8px;top:-3px;display:inline-flex;vertical-align:middle}
   .row-copy-btn{position:absolute;left:-26px;top:0;background:rgba(255,165,0,.5)}
@@ -46,9 +47,11 @@
 
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
-  const isBeta = () => location.pathname.includes("/beta/problems");
   const hasText = (el) => el?.textContent?.trim();
   const preventEvent = (e) => (e.preventDefault(), e.stopPropagation());
+
+  const WS = /[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g;
+  const getText = (cell) => cell.innerText.replace(WS, " ").trimEnd();
 
   const showCopied = (button) => {
     const originalContent = button.innerHTML;
@@ -60,42 +63,16 @@
     }, 800);
   };
 
-  const getTestcase = (cell) =>
-    (cell.innerText ?? "")
-      .replace(
-        /[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g,
-        " "
-      )
-      .trimEnd();
-
-  const copy = (text, button) => (
-    navigator.clipboard.writeText(text), showCopied(button)
-  );
-
-  const copyRow = (row, button) => {
-    const cells = row.querySelectorAll("td");
-    if (cells.length < 2) return;
-    const [input, output] = [getTestcase(cells[0]), getTestcase(cells[1])];
-    input.trim() && navigator.clipboard.writeText(input);
-    setTimeout(
-      () => output.trim() && navigator.clipboard.writeText(output),
-      400
-    );
-    showCopied(button);
-  };
-
   const formatTitle = (title) =>
-    !title
-      ? ""
-      : title
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]|[đĐ]/g, (m) =>
-            m === "đ" ? "d" : m === "Đ" ? "D" : ""
-          )
-          .replace(/[^A-Za-z0-9]+/g, " ")
-          .trim()
-          .replace(/\S+/g, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
-          .replace(/ /g, WORD_SEPARATOR);
+    title
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]|[đĐ]/g, (m) =>
+        m === "đ" ? "d" : m === "Đ" ? "D" : ""
+      )
+      .replace(/[^A-Za-z0-9]+/g, " ")
+      .trim()
+      .replace(/\S+/g, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
+      .replace(/ /g, WORD_SEPARATOR);
 
   const addCellBtn = (cell) => {
     if (!hasText(cell) || cell.dataset.copyAdded) return;
@@ -105,15 +82,11 @@
     const btn = document.createElement("button");
     btn.className = "copy-btn";
     btn.innerHTML = ICONS.copy;
-    btn.addEventListener(
-      "click",
-      (e) => (
-        preventEvent(e),
-        ((content) => content.trim() && copy(content, e.currentTarget))(
-          getTestcase(cell)
-        )
-      )
-    );
+    btn.addEventListener("click", (e) => {
+      preventEvent(e);
+      navigator.clipboard.writeText(getText(cell));
+      showCopied(e.currentTarget);
+    });
     cell.appendChild(btn);
   };
 
@@ -127,42 +100,41 @@
     const btn = document.createElement("button");
     btn.className = "row-copy-btn";
     btn.innerHTML = ICONS.rowCopy;
-    btn.addEventListener(
-      "click",
-      (e) => (preventEvent(e), copyRow(row, e.currentTarget))
-    );
+    btn.addEventListener("click", (e) => {
+      preventEvent(e);
+      navigator.clipboard.writeText(getText(cells[0]));
+      setTimeout(() => navigator.clipboard.writeText(getText(cells[1])), 400);
+      showCopied(e.currentTarget);
+    });
     cells[0].appendChild(btn);
   };
 
-  const addTitleBtn = (titleEl) => {
+  const addTitleBtn = (titleEl, isDB) => {
     if (!titleEl || titleEl.dataset.copyAdded) return;
     titleEl.dataset.copyAdded = "true";
     const btn = document.createElement("button");
     btn.className = "title-copy-btn";
     btn.innerHTML = ICONS.copy;
-    btn.addEventListener(
-      "click",
-      (e) => (
-        preventEvent(e),
-        (() => {
-          const code = (location.pathname.split("/").pop() || "").trim();
-          const titleText = (titleEl.textContent || "").trim();
-          const joiner = WORD_SEPARATOR || "_";
-          const name = [code, formatTitle(titleText)]
-            .filter(Boolean)
-            .join(joiner);
-          name && copy(name, e.currentTarget);
-        })()
-      )
-    );
+    btn.addEventListener("click", (e) => {
+      preventEvent(e);
+      const text = isDB
+        ? (titleEl.textContent || "").trim().replace(/[\\/:*?"<>|]/g, "")
+        : (() => {
+            const code = (location.pathname.split("/").pop() || "").trim();
+            const titleText = (titleEl.textContent || "").trim();
+            const joiner = WORD_SEPARATOR || "_";
+            return [code, formatTitle(titleText)].filter(Boolean).join(joiner);
+          })();
+      navigator.clipboard.writeText(text);
+      showCopied(e.currentTarget);
+    });
     titleEl.insertBefore(btn, titleEl.firstChild);
   };
 
-  const processTables = (tables) => {
+  const addBtns = (tables) => {
     tables.forEach((t) => {
-      t.querySelectorAll("tbody p").forEach(
-        (p) => (p.outerHTML = `<div>${p.innerHTML}</div>`)
-      );
+      const ps = t.querySelectorAll("tbody p");
+      ps.forEach((p) => (p.outerHTML = `<div>${p.innerHTML}</div>`));
       t.querySelectorAll("tr:not(:first-child)").forEach((row) => {
         row.querySelectorAll("td").forEach(addCellBtn);
         addRowBtn(row);
@@ -170,44 +142,35 @@
     });
   };
 
-  const processLegacyPage = () => {
-    if (!/\/student\/question\/[A-Za-z0-9_]+/.test(location.pathname)) return;
-    const container = $(".submit__des");
-    if (!container) return;
-    addTitleBtn($(".submit__nav p span a.link--red"));
-    const tables = [...container.querySelectorAll("table")];
-    processTables(tables);
-  };
-
-  const processBetaPage = () => {
-    if (!/\/beta\/problems\/[A-Za-z0-9_]+/.test(location.pathname)) return;
-    addTitleBtn($$("h2").find(hasText));
-    processTables($$("table"));
-  };
-
-  const cleanup = () => {
-    $$(".copy-btn, .title-copy-btn, .row-copy-btn").forEach((btn) =>
-      btn.remove()
-    );
+  const process = () => {
+    $$(".copy-btn, .title-copy-btn, .row-copy-btn").forEach((b) => b.remove());
     $$("[data-copy-added], [data-row-copy-added]").forEach(
       (el) => (
         el.removeAttribute("data-copy-added"),
         el.removeAttribute("data-row-copy-added")
       )
     );
+    const { hostname, pathname } = location;
+    const isDB =
+      hostname === "db.ptit.edu.vn" &&
+      /\/question-detail\/[A-Za-z0-9_]+/.test(pathname);
+    if (isDB) addTitleBtn($("h3.font-medium.text-lg.text-foreground"), true);
+    else if (hostname === "code.ptit.edu.vn")
+      if (/\/beta\/problems\/[A-Za-z0-9_]+/.test(pathname)) {
+        addTitleBtn($$("h2").find(hasText));
+        addBtns($$("table"));
+      } else if (/\/student\/question\/[A-Za-z0-9_]+/.test(pathname)) {
+        addTitleBtn($(".submit__nav p span a.link--red"));
+        addBtns([...($(".submit__des")?.querySelectorAll("table") ?? [])]);
+      }
   };
-
-  const process = () => (
-    cleanup(), isBeta() ? processBetaPage() : processLegacyPage()
-  );
 
   let observerTimer;
   const observer = new MutationObserver(() => {
     clearTimeout(observerTimer);
     observerTimer = setTimeout(() => {
-      observer.lastUrl !== location.href
-        ? ((observer.lastUrl = location.href), process())
-        : (isBeta() ? processBetaPage : processLegacyPage)();
+      observer.lastUrl !== location.href && (observer.lastUrl = location.href);
+      process();
     }, 500);
   });
   observer.lastUrl = location.href;
@@ -225,10 +188,8 @@
         );
       });
     } catch {}
-    observer.observe(document.documentElement, {
-      childList: true,
-      subtree: true,
-    });
+    const observeConfig = { childList: true, subtree: true };
+    observer.observe(document.documentElement, observeConfig);
     process();
   };
 

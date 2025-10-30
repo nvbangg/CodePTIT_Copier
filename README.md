@@ -7,7 +7,7 @@
 
 ## 📌 TÍNH NĂNG:
 
-- ❌ Sửa lỗi dòng trống thừa khi copy Testcase trên CodePTIT (cả trang beta)
+- ❌ Sửa lỗi dòng trống thừa khi copy Testcase trên CodePTIT (cả trang beta và DB PTIT)
 - ⚡ Tạo nút copy nhanh Testcase và Mã bài + Tên bài được chuẩn hóa để đặt tên cho file
   - 💡 Ví dụ copy: `J04019_LopTriangle1.cpp` hoặc `J04019_Lop_Triangle_1.cpp` cho bài `LỚP TRIANGLE - 1`
 - ⚡ Hỗ trợ copy và paste nhanh input, output cùng lúc vào CPH (dùng cùng [KeyClipboard](https://github.com/nvbangg/KeyClipboard))
@@ -35,7 +35,6 @@
 ## 🔒 Privacy Policy
 
 - We do not collect or use any personal data from users
-- All user settings are stored locally in the user's browser
 
 ## 📄 License
 
