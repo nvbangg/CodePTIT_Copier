@@ -29,60 +29,6 @@ body {
   color: DodgerBlue;
 }
 
-.option {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  gap: 20px;
-  padding: 15px;
-  border-radius: 20px;
-  margin: 5px 0;
-  border-top: 1px solid lightgray;
-}
-.option:hover {
-  background: #e7f2ff;
-}
-
-.switch {
-  position: relative;
-  width: 48px;
-  height: 24px;
-  cursor: pointer;
-}
-.switch input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.slider {
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  background: lightgray;
-  transition: background-color 0.2s;
-}
-.slider::before {
-  content: "";
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  left: 3px;
-  bottom: 3px;
-  border-radius: 50%;
-  background: white;
-  transition: transform 0.2s;
-}
-
-input:checked + .slider {
-  background: lime;
-}
-input:checked + .slider::before {
-  transform: translateX(24px);
-}
-
 .footer-buttons {
   display: grid;
   grid-template-columns: 1.25fr 1fr 1fr;
