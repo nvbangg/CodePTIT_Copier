@@ -20,7 +20,7 @@
 
 <div align="center">
 
-[![Followers](https://img.shields.io/github/followers/nvbangg?label=Follow%20my%20GitHub&logo=github)](https://github.com/nvbangg) [![Stars](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo&logo=github)](https://github.com/nvbangg/CodePTIT_Copier) ![Visitors](https://api.visitorbadge.io/api/visitors?path=nvbangg%2FCodePTIT_Copier&countColor=blue&style=flat&labelStyle=none)<br><img src="https://nvbangg.github.io/assets/gifs/follow_star_github.gif" height="100">
+[![Followers](https://img.shields.io/github/followers/nvbangg?label=Follow%20my%20GitHub&logo=github)](https://github.com/nvbangg) &nbsp; [![Stars](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo&logo=github)](https://github.com/nvbangg/CodePTIT_Copier) &nbsp; ![Visitors](https://api.visitorbadge.io/api/visitors?path=CodePTIT_Copier&countColor=blue&style=flat&labelStyle=none)<br><img src="https://nvbangg.github.io/assets/gifs/follow_star_github.gif" height="100">
 
 </div>
 
