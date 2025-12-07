@@ -1,22 +1,24 @@
 # CodePTIT Copier
 
 > [!NOTE]
-> Sửa lỗi dòng trống thừa khi copy trên CodePTIT. Tạo nút copy nhanh Testcase và Mã bài + Tên bài được chuẩn hóa
-
-[![Homepage](https://img.shields.io/badge/Homepage-github-blue?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier)](https://github.com/nvbangg/CodePTIT_Copier) [![Available in the Chrome Web Store](https://nvbangg.github.io/assets/images/chrome_webstore.png)](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
+> Sửa lỗi dòng trống thừa khi Copy trên CodePTIT. Tự động tạo File nhập sẵn Testcase trong VS Code. Hỗ trợ Nộp bài nhanh từ Clipboard
 
 ## 📌 TÍNH NĂNG
 
-- ❌ Sửa lỗi dòng trống thừa khi copy Testcase trên CodePTIT (cả trang beta và DB PTIT)
-- ⚡ Tạo nút copy nhanh Testcase và Mã bài + Tên bài được chuẩn hóa để đặt tên cho file
-  - 💡 Ví dụ copy: `J04019_LopTriangle1.cpp` hoặc `J04019_Lop_Triangle_1.cpp` cho bài `LỚP TRIANGLE - 1`
-- ⚡ Hỗ trợ copy và paste nhanh input, output cùng lúc vào CPH (dùng cùng [KeyClipboard](https://github.com/nvbangg/KeyClipboard))
+- 🧹 Sửa lỗi dòng trống thừa khi copy Testcase trên CodePTIT (cho cả trang beta và DB PTIT)
+- ✨ Tự động tạo File nhập sẵn Testcase trong VS Code
+  - Ví dụ tự động tạo file `J03004_Chuan_Hoa_Xau_Ho_Ten_1.java` cho bài `CHUẨN HÓA XÂU HỌ TÊN - 1`
+  - Với Tesecase được nhập sẵn luôn vào [CPH](https://marketplace.visualstudio.com/items?itemName=DivyanshuAgrawal.competitive-programming-helper) trong VS Code
+- 📋 Thêm nút copy nhanh Testcase và Tên file được chuẩn hóa như trên
+- 📤 Hỗ trợ Nộp bài nhanh từ Clipboard với code vừa sao chép
+- ❌ Xóa banner "THỬ NGHIỆM PHIÊN BẢN MỚI" khi làm bài
+- 🔄 Thêm nút để chuyển đổi giữa trang beta và mặc định của một bài
 
 ## ⬇️ CÁCH CÀI ĐẶT
 
-- 🌐 Cài từ **Chrome Web Store**: [CodePTIT_Copier](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
+- 🌐 Cài đặt từ **Chrome Web Store**: [CodePTIT_Copier](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
 
-- Hoặc cài như user script từ [Greasyfork](https://greasyfork.org/vi/scripts/536045-codeptit-copier) (hạn chế tính năng, không có settings)
+[![Homepage](https://img.shields.io/badge/Homepage-github-blue?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier)](https://github.com/nvbangg/CodePTIT_Copier) [![Available in the Chrome Web Store](https://nvbangg.github.io/assets/images/chrome_webstore.png)](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
 
 <div align="center">
 
