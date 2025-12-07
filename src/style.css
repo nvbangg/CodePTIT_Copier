@@ -1,0 +1,81 @@
+.copy-btn,
+.title-copy-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  padding: 0px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: none;
+  outline: none !important;
+  user-select: none;
+  cursor: pointer;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.title-copy-btn {
+  margin-right: 5px;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.copied {
+  background: rgba(50, 205, 50, 1) !important;
+}
+
+.cph-btn,
+.switch-btn,
+.submit-btn {
+  width: auto;
+  height: 26px !important;
+  border-radius: 8px !important;
+  padding: 2px 8px;
+  background: rgba(255, 165, 0, 0.5);
+  color: #000;
+  font-size: 14px !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  white-space: wrap;
+  border: none;
+  outline: none !important;
+  user-select: none;
+  cursor: pointer;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.cph-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.switch-btn {
+  border: 1px solid rgba(30, 144, 255, 0.4) !important;
+  color: rgba(30, 144, 255, 0.8) !important;
+  background: 0 !important;
+}
+
+.action-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.submit-btn {
+  height: 30px !important;
+  display: block !important;
+  margin-left: auto;
+  margin-top: 8px;
+}
