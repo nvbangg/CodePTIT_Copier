@@ -20,7 +20,7 @@
       banner: ".username.container-fluid",
       submitBtn: ".submit__pad__btn",
       fileInput: "#fileInput",
-      submitHost: null,
+      submitHost: ".submit__pad",
     },
   };
 
@@ -49,15 +49,14 @@
     return null;
   };
 
-  const getId = () => {
-    const code = location.pathname.split("/").pop() || "";
-    return code.length > 15 ? "" : code; // để không lấy id khi thực hành
-  };
-
   // một vài bài có kí tự khoảng trắng đặc biệt
   const WHITESPACE = /[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g;
   const getCellText = (cell) => cell.innerText.replace(WHITESPACE, " ").trimEnd();
 
+  const getId = () => {
+    const code = location.pathname.split("/").pop() || "";
+    return code.length > 15 ? "" : code; // để không lấy id khi thực hành
+  };
   const getExt = () => {
     const compilerText =
       PAGE === "classic"
@@ -71,7 +70,7 @@
     return null;
   };
 
-  // xóa dấu tiếng việt, xóa kí tự đặc biệt, chỉ in hoa chữ đầu, dùng gạch dưới để phân cách
+  // xóa dấu tiếng việt, xóa kí tự đặc biệt, in hoa chỉ chữ đầu mỗi từ, dùng gạch dưới để phân cách
   const formatTitle = (text) =>
     text
       .normalize("NFD")
@@ -81,22 +80,23 @@
       .replace(/\S+/g, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
       .replace(/ /g, "_");
 
-  const getTitleText = (titleEl) => {
+  const getTitleText = (titleEl, withExt = true) => {
     if (!titleEl) return "";
     const code = getId();
     // chỉ lấy text node đầu tiên để tránh lỗi
     const titleText = [...titleEl.childNodes].find(
       (n) => n.nodeType === Node.TEXT_NODE
     )?.textContent;
+
     const base = [code, formatTitle(titleText)].filter(Boolean).join("_");
+    if (!withExt) return base;
     const ext = getExt();
     return ext ? `${base}${ext}` : base;
   };
 
   const getProblemData = (titleEl) => {
-    const name = getTitleText(titleEl);
+    const name = getTitleText(titleEl, false);
     if (!name) return null;
-
     const ensureNewline = (text) => (text.endsWith("\n") ? text : text + "\n");
     const tests = [];
     const tables = $$(PAGE === "beta" ? SEL.beta.tables : SEL.classic.tables);
@@ -158,9 +158,10 @@
   };
   const addCellBtns = (tables) => {
     tables.forEach((t) => {
-      // thay p bằng div để copy thuần cũng xóa được dòng trống thừa
+      // thay thẻ p bằng div để copy thuần cũng không lỗi dòng trống thừa
       const ps = t.querySelectorAll("tbody p");
       ps.forEach((p) => (p.outerHTML = `<div>${p.innerHTML}</div>`));
+
       t.querySelectorAll("tr:not(:first-child)").forEach((row) => {
         row.querySelectorAll("td").forEach(addCellBtn);
       });
@@ -176,7 +177,7 @@
       const text =
         PAGE === "db"
           ? target.textContent.trim().replace(/[\\/:*?"<>|]/g, "")
-          : getTitleText(target);
+          : getTitleText(target, true);
       navigator.clipboard.writeText(text);
       showStatus(e.currentTarget);
     });
@@ -186,7 +187,7 @@
   const addCPHBtn = (row, titleEl) => {
     if (!row || row.dataset.cphAdded) return;
     row.dataset.cphAdded = "true";
-    const btn = addBtn("cph-btn", ICONS.vscode + "<span>Send to VS Code</span>", async (e) => {
+    const btn = addBtn("cph-btn", ICONS.vscode + "<span>Nhập vào VS Code</span>", async (e) => {
       preventEvent(e);
       const currenttarget = e.currentTarget; //! giữ nguyên
       const data = getProblemData(titleEl);
@@ -208,14 +209,13 @@
       PAGE === "classic" ? "/beta/problems/" : "/student/question/"
     }${code}`;
     link.target = "_blank";
-    link.textContent = PAGE === "classic" ? "Open in Beta" : "Open in Classic";
+    link.textContent = PAGE === "classic" ? "Mở ở Beta" : "Mở ở Classic";
     target.appendChild(link);
   };
 
   const addActionBtns = (target, titleEl) => {
     if (!target || target.dataset.actionRowAdded) return;
     target.dataset.actionRowAdded = "true";
-
     // để action row cùng hàng title trên trang classic
     if (PAGE === "classic") {
       target.style.display = "flex";
@@ -225,8 +225,8 @@
     const row = document.createElement("div");
     row.className = "action-row";
     target.appendChild(row);
-    addCPHBtn(row, titleEl);
     addSwitchBtn(row);
+    addCPHBtn(row, titleEl);
   };
 
   const attachClipboardFile = async (fileInput) => {
@@ -234,9 +234,8 @@
       const text = await navigator.clipboard.readText();
       const ext = getExt();
       if (!text.trim() || !ext) return false;
-      const file = new File([text], `${getId() || "solution"}${ext}`, { type: "text/plain" });
       const dt = new DataTransfer();
-      dt.items.add(file);
+      dt.items.add(new File([text], `${getId() || "solution"}${ext}`, { type: "text/plain" }));
       fileInput.files = dt.files;
       fileInput.dispatchEvent(new Event("change", { bubbles: true }));
       return true;
@@ -245,19 +244,11 @@
     }
   };
 
-  const addSubmitBtn = (submitBtnSelector, fileInputSelector, hostSelector) => {
-    const submitBtn = $(submitBtnSelector);
-    const fileInput = $(fileInputSelector);
-    if (!submitBtn || !fileInput) return;
-
-    const host = hostSelector ? $(hostSelector) : submitBtn.parentElement;
-    if (!host) return;
-    let btn = host.querySelector(".submit-btn");
-    if (!btn) {
-      btn = addBtn("submit-btn", "Nộp bài vừa sao chép", async (e) => {
+  const addSubmitBtn = (submitBtn, fileInput, host) => {
+    if (!submitBtn?.querySelector(".submit-btn")) {
+      const btn = addBtn("submit-btn", "Nộp bài vừa sao chép", async (e) => {
         preventEvent(e);
-        const ok = await attachClipboardFile(fileInput);
-        if (ok && !submitBtn.disabled) submitBtn.click();
+        if ((await attachClipboardFile(fileInput)) && !submitBtn.disabled) submitBtn.click();
       });
       btn.type = "button";
       host.appendChild(btn);
@@ -266,16 +257,13 @@
 
   let LAST_URL = null;
   const process = () => {
-    const currentUrl = location.href;
-    if (currentUrl === LAST_URL) return;
+    const url = location.href;
+    if (url === LAST_URL) return;
+    LAST_URL = url;
+    $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-row, .submit-btn").forEach(
+      (el) => el.remove()
+    );
 
-    if (LAST_URL) {
-      $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-row, .submit-btn").forEach(
-        (el) => el.remove()
-      );
-    }
-
-    LAST_URL = currentUrl;
     PAGE = getPageType();
     if (PAGE === "db") {
       addTitleBtn($(SEL.db.title));
@@ -284,34 +272,27 @@
       addTitleBtn(titleEl);
       addActionBtns($(SEL.beta.action), titleEl);
       addCellBtns($$(SEL.beta.tables));
-      addSubmitBtn(SEL.beta.submitBtn, SEL.beta.fileInput, SEL.beta.submitHost);
+      addSubmitBtn($(SEL.beta.submitBtn), $(SEL.beta.fileInput), $(SEL.beta.submitHost));
     } else if (PAGE === "classic") {
       $(SEL.classic.banner)?.remove();
       const titleEl = $(SEL.classic.title);
       addTitleBtn(titleEl);
       addActionBtns($(SEL.classic.action), titleEl);
       addCellBtns($$(SEL.classic.tables));
-      addSubmitBtn(SEL.classic.submitBtn, SEL.classic.fileInput, SEL.classic.submitHost);
+      addSubmitBtn($(SEL.classic.submitBtn), $(SEL.classic.fileInput), $(SEL.classic.submitHost));
     }
   };
 
   let processTimer, observer;
   const start = () => {
-    observer = new MutationObserver(() => {
-      if (location.href !== LAST_URL) {
-        clearTimeout(processTimer);
-        processTimer = setTimeout(process, 600);
-      }
-    });
+    observer = new MutationObserver(
+      () =>
+        location.href !== LAST_URL &&
+        (clearTimeout(processTimer), (processTimer = setTimeout(process, 600)))
+    );
     observer.observe(document.documentElement, { childList: true, subtree: true });
     setTimeout(process, 300);
   };
-
-  window.addEventListener("beforeunload", () => {
-    clearTimeout(processTimer);
-    observer?.disconnect();
-  });
-
   document.readyState !== "loading"
     ? start()
     : document.addEventListener("DOMContentLoaded", start);
