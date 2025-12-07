@@ -13,6 +13,7 @@
   outline: none !important;
   user-select: none;
   cursor: pointer;
+  line-height: 1;
 }
 
 .copy-btn {
@@ -22,13 +23,30 @@
 }
 
 .title-copy-btn {
-  margin-right: 5px;
+  margin-left: 8px;
   display: inline-flex;
   vertical-align: middle;
+  align-items: center;
+  transform: translateY(-3px);
 }
 
-.copied {
+.check {
   background: rgba(50, 205, 50, 1) !important;
+}
+.check * {
+  visibility: hidden;
+}
+.check::before {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white !important;
+  font-size: 20px;
+  font-weight: bold;
+  visibility: visible;
 }
 
 .cph-btn,
@@ -51,6 +69,7 @@
   cursor: pointer;
   margin-left: 5px;
   vertical-align: middle;
+  position: relative;
 }
 
 .cph-btn svg {
@@ -64,13 +83,12 @@
   background: 0 !important;
 }
 
-.action-row {
-  display: inline-flex;
+.action-bar {
+  display: flex;
   align-items: center;
-  gap: 6px;
   flex-wrap: wrap;
-  margin-left: 8px;
-  vertical-align: middle;
+  gap: 8px;
+  margin-bottom: 6px;
 }
 
 .submit-btn {
