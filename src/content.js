@@ -3,12 +3,11 @@
 
   // Element
   let titleEl = null;
-  let actionEl = null;
   let tablesEls = [];
   let submitBtnEl = null;
   let fileInputEl = null;
   let submitHostEl = null;
-  let actionRowEl = null;
+  let actionHostEl = null;
   const BANNER_EL = ".username.container-fluid";
 
   let pageType = null; // beta, classic, db, null
@@ -69,13 +68,10 @@
   const getTitleText = (withExt = true) => {
     if (!titleEl) return "";
     const code = getId();
-    // chỉ lấy text node đầu tiên để tránh lỗi
-    const titleText = [...titleEl.childNodes].find((n) => n.nodeType === Node.TEXT_NODE)?.textContent || "";
-
-    const base = [code, formatTitle(titleText)].filter(Boolean).join("_");
-    if (!withExt) return base;
+    const fileName = [code, formatTitle(titleEl.textContent)].filter(Boolean).join("_");
+    if (!withExt) return fileName;
     const ext = getExt();
-    return ext ? `${base}${ext}` : base;
+    return ext ? `${fileName}${ext}` : fileName;
   };
 
   const getProblemData = () => {
@@ -98,13 +94,10 @@
   };
 
   const showStatus = (button) => {
-    if (button.classList.contains("copied")) return;
-    const originalContent = button.innerHTML;
-    button.innerHTML = ICONS.check;
-    button.classList.add("copied");
+    if (button.classList.contains("check")) return;
+    button.classList.add("check");
     setTimeout(() => {
-      button.innerHTML = originalContent;
-      button.classList.remove("copied");
+      button.classList.remove("check");
     }, 800);
   };
 
@@ -159,11 +152,13 @@
       navigator.clipboard.writeText(text);
       showStatus(e.currentTarget);
     });
-    titleEl.insertBefore(btn, titleEl.firstChild);
+    titleEl.appendChild(btn);
   };
 
-  const addCPHBtn = () => {
-    if (!actionRowEl) return;
+  const addActionBtns = () => {
+    if (!actionHostEl) return;
+    const bar = document.createElement("div");
+    bar.className = "action-bar";
     const btn = addBtn("cph-btn", ICONS.vscode + "<span>Nhập vào VS Code</span>", async (e) => {
       preventEvent(e);
       const currenttarget = e.currentTarget; //! giữ nguyên
@@ -172,35 +167,18 @@
       const success = await sendToCPH(data);
       if (success) showStatus(currenttarget);
     });
-    actionRowEl.appendChild(btn);
-  };
+    bar.appendChild(btn);
 
-  const addSwitchBtn = () => {
-    if (!actionRowEl) return;
     const code = getId();
-    if (!code) return;
-    const link = document.createElement("a");
-    link.className = "switch-btn";
-    link.href = `${location.origin}${pageType === "classic" ? "/beta/problems/" : "/student/question/"}${code}`;
-    link.target = "_blank";
-    link.textContent = pageType === "classic" ? "Mở ở Beta" : "Mở ở Classic";
-    actionRowEl.appendChild(link);
-  };
-
-  const addActionBtns = () => {
-    // để action row cùng hàng title trên trang classic
-    if (!actionEl) return;
-    if (pageType === "classic") {
-      actionEl.style.display = "flex";
-      actionEl.style.alignItems = "center";
-      actionEl.style.flexWrap = "wrap";
+    if (code) {
+      const link = document.createElement("a");
+      link.className = "switch-btn";
+      link.href = `${location.origin}${pageType === "classic" ? "/beta/problems/" : "/student/question/"}${code}`;
+      link.target = "_blank";
+      link.textContent = pageType === "classic" ? "Mở ở Beta" : "Mở ở Classic";
+      bar.appendChild(link);
     }
-    const row = document.createElement("div");
-    row.className = "action-row";
-    actionEl.appendChild(row);
-    actionRowEl = row;
-    addSwitchBtn();
-    addCPHBtn();
+    actionHostEl.prepend(bar);
   };
 
   const attachClipboardFile = async () => {
@@ -241,28 +219,29 @@
     const url = location.href;
     if (url === LAST_URL) return;
     LAST_URL = url;
-    $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-row, .submit-btn").forEach((el) => el.remove());
+    $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-bar, .action-row, .submit-btn").forEach((el) =>
+      el.remove()
+    );
 
     pageType = getPageType();
-    titleEl = actionEl = submitBtnEl = fileInputEl = submitHostEl = actionRowEl = null;
+    titleEl = submitBtnEl = fileInputEl = submitHostEl = actionHostEl = null;
     tablesEls = [];
-
     if (pageType === "db") {
       titleEl = $("h3.font-medium.text-lg.text-foreground");
       addTitleBtn();
     } else if (pageType) {
       const isBeta = pageType === "beta";
       titleEl = $(isBeta ? ".body-header h2" : ".submit__nav p span a.link--red");
-      actionEl = isBeta ? titleEl : $(".submit__nav p");
       tablesEls = $$(isBeta ? ".problem-container table" : ".submit__des table");
       submitBtnEl = $(isBeta ? ".submit-status-container button.ant-btn-primary" : ".submit__pad__btn");
       fileInputEl = $(isBeta ? ".submit-container input[type='file']" : "#fileInput");
       submitHostEl = $(isBeta ? ".submit-container" : ".submit__pad");
+      actionHostEl = $(isBeta ? ".body-header" : ".submit.student__submit");
 
       !isBeta && $(BANNER_EL)?.remove();
       addTitleBtn();
-      addActionBtns();
       addCellBtns();
+      addActionBtns();
       addSubmitBtn();
     }
   };
