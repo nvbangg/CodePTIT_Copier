@@ -1,29 +1,17 @@
-(() => {
+(function () {
   "use strict";
-  // SELECTORS
-  const SEL = {
-    db: {
-      title: "h3.font-medium.text-lg.text-foreground",
-    },
-    beta: {
-      title: ".body-header h2",
-      action: ".body-header h2",
-      tables: ".problem-container table",
-      submitBtn: ".submit-status-container button.ant-btn-primary",
-      fileInput: ".submit-container input[type='file']",
-      submitHost: ".submit-container",
-    },
-    classic: {
-      title: ".submit__nav p span a.link--red",
-      action: ".submit__nav p",
-      tables: ".submit__des table",
-      banner: ".username.container-fluid",
-      submitBtn: ".submit__pad__btn",
-      fileInput: "#fileInput",
-      submitHost: ".submit__pad",
-    },
-  };
 
+  // Element
+  let titleEl = null;
+  let actionEl = null;
+  let tablesEls = [];
+  let bannerEl = null;
+  let submitBtnEl = null;
+  let fileInputEl = null;
+  let submitHostEl = null;
+  let actionRowEl = null;
+
+  let pageType = null; // beta, classic, db, null
   const ICONS = {
     copy: '<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="rgba(30,144,255,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h10a2 2 0 0 1 2 2v10"/><rect x="3" y="8" width="13" height="13" rx="2"/></svg>',
     check:
@@ -32,7 +20,6 @@
       '<svg width="25" height="25" viewBox="0 0 24 24" fill="#007ACC"><path d="M23.15 2.587L18.21.22a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>',
   };
 
-  let PAGE = null; // beta, classic, db, null
   const $ = (s) => document.querySelector(s);
   const $$ = (s) => [...document.querySelectorAll(s)];
   const hasText = (el) => el?.textContent?.trim();
@@ -59,7 +46,7 @@
   };
   const getExt = () => {
     const compilerText =
-      PAGE === "classic"
+      pageType === "classic"
         ? $("#compiler")?.selectedOptions?.[0]?.textContent || ""
         : $(".compiler-container .ant-select-selection-item")?.textContent || "";
     const s = compilerText.toLowerCase();
@@ -80,7 +67,7 @@
       .replace(/\S+/g, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
       .replace(/ /g, "_");
 
-  const getTitleText = (titleEl, withExt = true) => {
+  const getTitleText = (withExt = true) => {
     if (!titleEl) return "";
     const code = getId();
     // chỉ lấy text node đầu tiên để tránh lỗi
@@ -94,13 +81,12 @@
     return ext ? `${base}${ext}` : base;
   };
 
-  const getProblemData = (titleEl) => {
-    const name = getTitleText(titleEl, false);
+  const getProblemData = () => {
+    const name = getTitleText(false);
     if (!name) return null;
     const ensureNewline = (text) => (text.endsWith("\n") ? text : text + "\n");
     const tests = [];
-    const tables = $$(PAGE === "beta" ? SEL.beta.tables : SEL.classic.tables);
-    tables.forEach((t) => {
+    tablesEls.forEach((t) => {
       t.querySelectorAll("tr:not(:first-child)").forEach((row) => {
         const cells = row.querySelectorAll("td");
         if (hasText(cells[0]) && hasText(cells[1])) {
@@ -146,9 +132,8 @@
   };
 
   const addCellBtn = (cell) => {
-    if (!hasText(cell) || cell.dataset.copyAdded) return;
+    if (!hasText(cell)) return;
     window.getComputedStyle(cell).position === "static" && (cell.style.position = "relative");
-    cell.dataset.copyAdded = "true";
     const btn = addBtn("copy-btn", ICONS.copy, (e) => {
       preventEvent(e);
       navigator.clipboard.writeText(getCellText(cell));
@@ -156,8 +141,8 @@
     });
     cell.appendChild(btn);
   };
-  const addCellBtns = (tables) => {
-    tables.forEach((t) => {
+  const addCellBtns = () => {
+    tablesEls.forEach((t) => {
       // thay thẻ p bằng div để copy thuần cũng không lỗi dòng trống thừa
       const ps = t.querySelectorAll("tbody p");
       ps.forEach((p) => (p.outerHTML = `<div>${p.innerHTML}</div>`));
@@ -168,94 +153,94 @@
     });
   };
 
-  const addTitleBtn = (target) => {
-    if (!target || target.dataset.copyAdded) return;
-    target.dataset.copyAdded = "true";
+  const addTitleBtn = () => {
+    if (!titleEl) return;
     const btn = addBtn("title-copy-btn", ICONS.copy, (e) => {
       preventEvent(e);
       // trang DB chỉ xóa kí tự đặc biệt trong tiêu đề
       const text =
-        PAGE === "db"
-          ? target.textContent.trim().replace(/[\\/:*?"<>|]/g, "")
-          : getTitleText(target, true);
+        pageType === "db"
+          ? titleEl.textContent.trim().replace(/[\\/:*?"<>|]/g, "")
+          : getTitleText(true);
       navigator.clipboard.writeText(text);
       showStatus(e.currentTarget);
     });
-    target.insertBefore(btn, target.firstChild);
+    titleEl.insertBefore(btn, titleEl.firstChild);
   };
 
-  const addCPHBtn = (row, titleEl) => {
-    if (!row || row.dataset.cphAdded) return;
-    row.dataset.cphAdded = "true";
+  const addCPHBtn = () => {
+    if (!actionRowEl) return;
     const btn = addBtn("cph-btn", ICONS.vscode + "<span>Nhập vào VS Code</span>", async (e) => {
       preventEvent(e);
       const currenttarget = e.currentTarget; //! giữ nguyên
-      const data = getProblemData(titleEl);
+      const data = getProblemData();
       if (!data) return;
       const success = await sendToCPH(data);
       if (success) showStatus(currenttarget);
     });
-    row.appendChild(btn);
+    actionRowEl.appendChild(btn);
   };
 
-  const addSwitchBtn = (target) => {
-    if (!target || target.dataset.switchAdded) return;
+  const addSwitchBtn = () => {
+    if (!actionRowEl) return;
     const code = getId();
     if (!code) return;
-    target.dataset.switchAdded = "true";
     const link = document.createElement("a");
     link.className = "switch-btn";
     link.href = `${location.origin}${
-      PAGE === "classic" ? "/beta/problems/" : "/student/question/"
+      pageType === "classic" ? "/beta/problems/" : "/student/question/"
     }${code}`;
     link.target = "_blank";
-    link.textContent = PAGE === "classic" ? "Mở ở Beta" : "Mở ở Classic";
-    target.appendChild(link);
+    link.textContent = pageType === "classic" ? "Mở ở Beta" : "Mở ở Classic";
+    actionRowEl.appendChild(link);
   };
 
-  const addActionBtns = (target, titleEl) => {
-    if (!target || target.dataset.actionRowAdded) return;
-    target.dataset.actionRowAdded = "true";
+  const addActionBtns = () => {
     // để action row cùng hàng title trên trang classic
-    if (PAGE === "classic") {
-      target.style.display = "flex";
-      target.style.alignItems = "center";
-      target.style.flexWrap = "wrap";
+    if (!actionEl) return;
+    if (pageType === "classic") {
+      actionEl.style.display = "flex";
+      actionEl.style.alignItems = "center";
+      actionEl.style.flexWrap = "wrap";
     }
     const row = document.createElement("div");
     row.className = "action-row";
-    target.appendChild(row);
-    addSwitchBtn(row);
-    addCPHBtn(row, titleEl);
+    actionEl.appendChild(row);
+    actionRowEl = row;
+    addSwitchBtn();
+    addCPHBtn();
   };
 
-  const attachClipboardFile = async (fileInput) => {
+  const attachClipboardFile = async () => {
     try {
+      if (!fileInputEl) return false;
       const text = await navigator.clipboard.readText();
       const ext = getExt();
       if (!text.trim() || !ext) return false;
       const dt = new DataTransfer();
       dt.items.add(new File([text], `${getId() || "solution"}${ext}`, { type: "text/plain" }));
-      fileInput.files = dt.files;
-      fileInput.dispatchEvent(new Event("change", { bubbles: true }));
+      fileInputEl.files = dt.files;
+      fileInputEl.dispatchEvent(new Event("change", { bubbles: true }));
       return true;
     } catch {
       return false;
     }
   };
 
-  const addSubmitBtn = (submitBtn, fileInput, host) => {
-    if (!submitBtn?.querySelector(".submit-btn")) {
+  const addSubmitBtn = () => {
+    if (!submitBtnEl || !submitHostEl) return;
+    if (!submitBtnEl?.querySelector(".submit-btn")) {
       const btn = addBtn("submit-btn", "Nộp bài vừa sao chép", async (e) => {
         preventEvent(e);
-        if ((await attachClipboardFile(fileInput)) && !submitBtn.disabled) submitBtn.click();
+        if ((await attachClipboardFile()) && !submitBtnEl.disabled) submitBtnEl.click();
       });
       btn.type = "button";
-      host.appendChild(btn);
+      submitHostEl.appendChild(btn);
     }
   };
 
   let LAST_URL = null;
+  let processTimer;
   const process = () => {
     const url = location.href;
     if (url === LAST_URL) return;
@@ -264,34 +249,42 @@
       (el) => el.remove()
     );
 
-    PAGE = getPageType();
-    if (PAGE === "db") {
-      addTitleBtn($(SEL.db.title));
-    } else if (PAGE === "beta") {
-      const titleEl = $(SEL.beta.title);
-      addTitleBtn(titleEl);
-      addActionBtns($(SEL.beta.action), titleEl);
-      addCellBtns($$(SEL.beta.tables));
-      addSubmitBtn($(SEL.beta.submitBtn), $(SEL.beta.fileInput), $(SEL.beta.submitHost));
-    } else if (PAGE === "classic") {
-      $(SEL.classic.banner)?.remove();
-      const titleEl = $(SEL.classic.title);
-      addTitleBtn(titleEl);
-      addActionBtns($(SEL.classic.action), titleEl);
-      addCellBtns($$(SEL.classic.tables));
-      addSubmitBtn($(SEL.classic.submitBtn), $(SEL.classic.fileInput), $(SEL.classic.submitHost));
+    pageType = getPageType();
+    titleEl = actionEl = bannerEl = submitBtnEl = fileInputEl = submitHostEl = actionRowEl = null;
+    tablesEls = [];
+
+    if (pageType === "db") {
+      titleEl = $("h3.font-medium.text-lg.text-foreground");
+      addTitleBtn();
+    } else if (pageType) {
+      const isBeta = pageType === "beta";
+      titleEl = $(isBeta ? ".body-header h2" : ".submit__nav p span a.link--red");
+      actionEl = isBeta ? titleEl : $(".submit__nav p");
+      tablesEls = $$(isBeta ? ".problem-container table" : ".submit__des table");
+      submitBtnEl = $(
+        isBeta ? ".submit-status-container button.ant-btn-primary" : ".submit__pad__btn"
+      );
+      fileInputEl = $(isBeta ? ".submit-container input[type='file']" : "#fileInput");
+      submitHostEl = $(isBeta ? ".submit-container" : ".submit__pad");
+      if (!isBeta) bannerEl = $(".username.container-fluid");
+
+      !isBeta && bannerEl?.remove();
+      addTitleBtn();
+      addActionBtns();
+      addCellBtns();
+      addSubmitBtn();
     }
   };
 
-  let processTimer, observer;
   const start = () => {
-    observer = new MutationObserver(
-      () =>
-        location.href !== LAST_URL &&
-        (clearTimeout(processTimer), (processTimer = setTimeout(process, 600)))
-    );
-    observer.observe(document.documentElement, { childList: true, subtree: true });
     setTimeout(process, 300);
+    const observer = new MutationObserver(() => {
+      if (location.href !== LAST_URL) {
+        clearTimeout(processTimer);
+        processTimer = setTimeout(process, 500);
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   };
   document.readyState !== "loading"
     ? start()
