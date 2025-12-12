@@ -5,11 +5,11 @@
   let titleEl = null;
   let actionEl = null;
   let tablesEls = [];
-  let bannerEl = null;
   let submitBtnEl = null;
   let fileInputEl = null;
   let submitHostEl = null;
   let actionRowEl = null;
+  const BANNER_EL = ".username.container-fluid";
 
   let pageType = null; // beta, classic, db, null
   const ICONS = {
@@ -27,8 +27,7 @@
 
   const getPageType = () => {
     const { hostname, pathname } = location;
-    if (hostname === "db.ptit.edu.vn" && /\/question-detail\/[A-Za-z0-9_]+/.test(pathname))
-      return "db";
+    if (hostname === "db.ptit.edu.vn" && /\/question-detail\/[A-Za-z0-9_]+/.test(pathname)) return "db";
     if (hostname === "code.ptit.edu.vn") {
       if (/\/beta\/problems\/[A-Za-z0-9_]+/.test(pathname)) return "beta";
       if (/\/student\/question\/[A-Za-z0-9_]+/.test(pathname)) return "classic";
@@ -71,9 +70,7 @@
     if (!titleEl) return "";
     const code = getId();
     // chỉ lấy text node đầu tiên để tránh lỗi
-    const titleText = [...titleEl.childNodes].find(
-      (n) => n.nodeType === Node.TEXT_NODE
-    )?.textContent;
+    const titleText = [...titleEl.childNodes].find((n) => n.nodeType === Node.TEXT_NODE)?.textContent || "";
 
     const base = [code, formatTitle(titleText)].filter(Boolean).join("_");
     if (!withExt) return base;
@@ -158,10 +155,7 @@
     const btn = addBtn("title-copy-btn", ICONS.copy, (e) => {
       preventEvent(e);
       // trang DB chỉ xóa kí tự đặc biệt trong tiêu đề
-      const text =
-        pageType === "db"
-          ? titleEl.textContent.trim().replace(/[\\/:*?"<>|]/g, "")
-          : getTitleText(true);
+      const text = pageType === "db" ? titleEl.textContent.trim().replace(/[\\/:*?"<>|]/g, "") : getTitleText(true);
       navigator.clipboard.writeText(text);
       showStatus(e.currentTarget);
     });
@@ -187,9 +181,7 @@
     if (!code) return;
     const link = document.createElement("a");
     link.className = "switch-btn";
-    link.href = `${location.origin}${
-      pageType === "classic" ? "/beta/problems/" : "/student/question/"
-    }${code}`;
+    link.href = `${location.origin}${pageType === "classic" ? "/beta/problems/" : "/student/question/"}${code}`;
     link.target = "_blank";
     link.textContent = pageType === "classic" ? "Mở ở Beta" : "Mở ở Classic";
     actionRowEl.appendChild(link);
@@ -218,7 +210,11 @@
       const ext = getExt();
       if (!text.trim() || !ext) return false;
       const dt = new DataTransfer();
-      dt.items.add(new File([text], `${getId() || "solution"}${ext}`, { type: "text/plain" }));
+      dt.items.add(
+        new File([text], `${getId() || "solution"}${ext}`, {
+          type: "text/plain",
+        })
+      );
       fileInputEl.files = dt.files;
       fileInputEl.dispatchEvent(new Event("change", { bubbles: true }));
       return true;
@@ -229,7 +225,7 @@
 
   const addSubmitBtn = () => {
     if (!submitBtnEl || !submitHostEl) return;
-    if (!submitBtnEl?.querySelector(".submit-btn")) {
+    if (!submitBtnEl.querySelector(".submit-btn")) {
       const btn = addBtn("submit-btn", "Nộp bài vừa sao chép", async (e) => {
         preventEvent(e);
         if ((await attachClipboardFile()) && !submitBtnEl.disabled) submitBtnEl.click();
@@ -245,12 +241,10 @@
     const url = location.href;
     if (url === LAST_URL) return;
     LAST_URL = url;
-    $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-row, .submit-btn").forEach(
-      (el) => el.remove()
-    );
+    $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-row, .submit-btn").forEach((el) => el.remove());
 
     pageType = getPageType();
-    titleEl = actionEl = bannerEl = submitBtnEl = fileInputEl = submitHostEl = actionRowEl = null;
+    titleEl = actionEl = submitBtnEl = fileInputEl = submitHostEl = actionRowEl = null;
     tablesEls = [];
 
     if (pageType === "db") {
@@ -261,14 +255,11 @@
       titleEl = $(isBeta ? ".body-header h2" : ".submit__nav p span a.link--red");
       actionEl = isBeta ? titleEl : $(".submit__nav p");
       tablesEls = $$(isBeta ? ".problem-container table" : ".submit__des table");
-      submitBtnEl = $(
-        isBeta ? ".submit-status-container button.ant-btn-primary" : ".submit__pad__btn"
-      );
+      submitBtnEl = $(isBeta ? ".submit-status-container button.ant-btn-primary" : ".submit__pad__btn");
       fileInputEl = $(isBeta ? ".submit-container input[type='file']" : "#fileInput");
       submitHostEl = $(isBeta ? ".submit-container" : ".submit__pad");
-      if (!isBeta) bannerEl = $(".username.container-fluid");
 
-      !isBeta && bannerEl?.remove();
+      !isBeta && $(BANNER_EL)?.remove();
       addTitleBtn();
       addActionBtns();
       addCellBtns();
@@ -286,7 +277,5 @@
     });
     observer.observe(document.body, { childList: true, subtree: true });
   };
-  document.readyState !== "loading"
-    ? start()
-    : document.addEventListener("DOMContentLoaded", start);
+  document.readyState !== "loading" ? start() : document.addEventListener("DOMContentLoaded", start);
 })();
