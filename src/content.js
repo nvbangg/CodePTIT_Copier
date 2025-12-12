@@ -13,8 +13,6 @@
   let pageType = null; // beta, classic, db, null
   const ICONS = {
     copy: '<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="rgba(30,144,255,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h10a2 2 0 0 1 2 2v10"/><rect x="3" y="8" width="13" height="13" rx="2"/></svg>',
-    check:
-      '<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
     vscode:
       '<svg width="25" height="25" viewBox="0 0 24 24" fill="#007ACC"><path d="M23.15 2.587L18.21.22a1.494 1.494 0 0 0-1.705.29l-9.46 8.63-4.12-3.128a.999.999 0 0 0-1.276.057L.327 7.261A1 1 0 0 0 .326 8.74L3.899 12 .326 15.26a1 1 0 0 0 .001 1.479L1.65 17.94a.999.999 0 0 0 1.276.057l4.12-3.128 9.46 8.63a1.492 1.492 0 0 0 1.704.29l4.942-2.377A1.5 1.5 0 0 0 24 20.06V3.939a1.5 1.5 0 0 0-.85-1.352zm-5.146 14.861L10.826 12l7.178-5.448v10.896z"/></svg>',
   };
@@ -203,14 +201,12 @@
 
   const addSubmitBtn = () => {
     if (!submitBtnEl || !submitHostEl) return;
-    if (!submitBtnEl.querySelector(".submit-btn")) {
-      const btn = addBtn("submit-btn", "Nộp bài vừa sao chép", async (e) => {
-        preventEvent(e);
-        if ((await attachClipboardFile()) && !submitBtnEl.disabled) submitBtnEl.click();
-      });
-      btn.type = "button";
-      submitHostEl.appendChild(btn);
-    }
+    const btn = addBtn("submit-btn", "Nộp bài vừa sao chép", async (e) => {
+      preventEvent(e);
+      if ((await attachClipboardFile()) && !submitBtnEl.disabled) submitBtnEl.click();
+    });
+    btn.type = "button";
+    submitHostEl.appendChild(btn);
   };
 
   let LAST_URL = null;
@@ -247,7 +243,7 @@
   };
 
   const start = () => {
-    setTimeout(process, 300);
+    setTimeout(process, 500);
     const observer = new MutationObserver(() => {
       if (location.href !== LAST_URL) {
         clearTimeout(processTimer);
