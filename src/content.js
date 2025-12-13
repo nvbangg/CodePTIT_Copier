@@ -37,8 +37,9 @@
   const WHITESPACE = /[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g;
   const getCellText = (cell) => cell.innerText.replace(WHITESPACE, " ").trimEnd();
 
-  const getId = () => {
+  const getId = (applyFormatting = false) => {
     const code = location.pathname.split("/").pop() || "";
+    if (!applyFormatting) return code;
     if (code.length > 15) return ""; // để không lấy id khi thực hành
     if (!useIdSeparator) return code;
     return code.replace(/([A-Za-z]+|\d+)/g, "_$1").slice(1);
@@ -69,7 +70,7 @@
 
   const getTitleText = (withExt = true) => {
     if (!titleEl) return "";
-    const code = getId();
+    const code = getId(true);
     const fileName = [code, formatTitle(titleEl.textContent)].filter(Boolean).join("_");
     if (!withExt) return fileName;
     const ext = getExt();
@@ -238,7 +239,6 @@
 
   const process = () => {
     $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-bar, .submit-btn").forEach((el) => el.remove());
-
     pageType = getPageType();
     titleEl = submitBtnEl = fileInputEl = submitHostEl = actionHostEl = null;
     tablesEls = [];
