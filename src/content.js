@@ -98,6 +98,7 @@
       button.classList.remove("check");
     }, 800);
   };
+  const showAlert = (msg) => alert("❌ " + msg);
 
   const sendToCPH = async (data) => {
     try {
@@ -161,9 +162,16 @@
       preventEvent(e);
       const currenttarget = e.currentTarget; //! giữ nguyên
       const data = getProblemData();
-      if (!data) return;
+      if (!data) {
+        showAlert("Không thể lấy dữ liệu bài toán");
+        return;
+      }
       const success = await sendToCPH(data);
-      if (success) showStatus(currenttarget);
+      if (success) {
+        showStatus(currenttarget);
+      } else {
+        showAlert("Không tìm thấy CPH (VS Code)");
+      }
     });
     bar.appendChild(btn);
 
@@ -181,29 +189,42 @@
 
   const attachClipboardFile = async () => {
     try {
-      if (!fileInputEl) return false;
       const text = await navigator.clipboard.readText();
+      if (!text.trim()) return "Không có dữ liệu vừa sao chép";
       const ext = getExt();
-      if (!text.trim() || !ext) return false;
-      const dt = new DataTransfer();
-      dt.items.add(
-        new File([text], `${getId() || "solution"}${ext}`, {
-          type: "text/plain",
-        })
-      );
-      fileInputEl.files = dt.files;
-      fileInputEl.dispatchEvent(new Event("change", { bubbles: true }));
-      return true;
+      if (!ext) return "Không thể xác định ngôn ngữ lập trình";
+      try {
+        const dt = new DataTransfer();
+        dt.items.add(new File([text], `${getId() || "solution"}${ext}`, { type: "text/plain" }));
+        fileInputEl.files = dt.files;
+      } catch {
+        return "Không thể tạo file";
+      }
+      try {
+        fileInputEl.dispatchEvent(new Event("change", { bubbles: true }));
+      } catch {
+        return "Không thể gửi file";
+      }
+      return null;
     } catch {
-      return false;
+      return "Không thể truy cập clipboard";
     }
   };
 
   const addSubmitBtn = () => {
-    if (!submitBtnEl || !submitHostEl) return;
+    if (!submitBtnEl || !submitHostEl || !fileInputEl) return;
     const btn = addBtn("submit-btn", "Nộp bài vừa sao chép", async (e) => {
       preventEvent(e);
-      if ((await attachClipboardFile()) && !submitBtnEl.disabled) submitBtnEl.click();
+      const error = await attachClipboardFile();
+      if (error) {
+        showAlert(error);
+        return;
+      }
+      if (submitBtnEl.disabled) {
+        showAlert("Nút nộp bài không khả dụng");
+        return;
+      }
+      submitBtnEl.click();
     });
     btn.type = "button";
     submitHostEl.appendChild(btn);
@@ -215,9 +236,7 @@
     const url = location.href;
     if (url === LAST_URL) return;
     LAST_URL = url;
-    $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-bar, .action-row, .submit-btn").forEach((el) =>
-      el.remove()
-    );
+    $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-bar, .submit-btn").forEach((el) => el.remove());
 
     pageType = getPageType();
     titleEl = submitBtnEl = fileInputEl = submitHostEl = actionHostEl = null;
