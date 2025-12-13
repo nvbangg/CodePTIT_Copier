@@ -23,7 +23,7 @@
 }
 
 .title-copy-btn {
-  margin-left: 8px;
+  margin: 0 8px;
   display: inline-flex;
   vertical-align: middle;
   align-items: center;
@@ -37,7 +37,7 @@
   visibility: hidden;
 }
 .check::before {
-  content: '✓';
+  content: "✓";
   position: absolute;
   inset: 0;
   display: flex;

@@ -1,14 +1,16 @@
 {
   "manifest_version": 3,
   "name": "CodePTIT Copier",
-  "version": "1.8",
+  "version": "1.9",
   "description": "Sửa lỗi dòng trống thừa khi Copy trên CodePTIT. Tự động tạo File nhập sẵn Testcase trong VS Code. Hỗ trợ Nộp bài nhanh từ Clipboard",
   "author": "nvbangg (https://github.com/nvbangg)",
   "homepage_url": "https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo",
 
+  "permissions": ["storage"],
+
   "action": {
     "default_title": "CodePTIT Copier",
-    "default_popup": "popup.html"
+    "default_popup": "popup/popup.html"
   },
 
   "host_permissions": ["http://localhost:27121/*"],

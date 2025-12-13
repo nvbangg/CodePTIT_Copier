@@ -10,6 +10,7 @@
   let actionHostEl = null;
   const BANNER_EL = ".username.container-fluid";
 
+  let useIdSeparator = false;
   let pageType = null; // beta, classic, db, null
   const ICONS = {
     copy: '<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="rgba(30,144,255,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h10a2 2 0 0 1 2 2v10"/><rect x="3" y="8" width="13" height="13" rx="2"/></svg>',
@@ -36,10 +37,14 @@
   const WHITESPACE = /[\u00A0\u1680\u180E\u2000-\u200B\u202F\u205F\u3000\uFEFF]/g;
   const getCellText = (cell) => cell.innerText.replace(WHITESPACE, " ").trimEnd();
 
-  const getId = () => {
+  const getId = (applyFormatting = false) => {
     const code = location.pathname.split("/").pop() || "";
-    return code.length > 15 ? "" : code; // để không lấy id khi thực hành
+    if (!applyFormatting) return code;
+    if (code.length > 15) return ""; // để không lấy id khi thực hành
+    if (!useIdSeparator) return code;
+    return code.replace(/([A-Za-z]+|\d+)/g, "_$1").slice(1);
   };
+
   const getExt = () => {
     const compilerText =
       pageType === "classic"
@@ -65,7 +70,7 @@
 
   const getTitleText = (withExt = true) => {
     if (!titleEl) return "";
-    const code = getId();
+    const code = getId(true);
     const fileName = [code, formatTitle(titleEl.textContent)].filter(Boolean).join("_");
     if (!withExt) return fileName;
     const ext = getExt();
@@ -75,15 +80,14 @@
   const getProblemData = () => {
     const name = getTitleText(false);
     if (!name) return null;
-    const ensureNewline = (text) => (text.endsWith("\n") ? text : text + "\n");
     const tests = [];
     tablesEls.forEach((t) => {
       t.querySelectorAll("tr:not(:first-child)").forEach((row) => {
         const cells = row.querySelectorAll("td");
         if (hasText(cells[0]) && hasText(cells[1])) {
           tests.push({
-            input: ensureNewline(getCellText(cells[0])),
-            output: ensureNewline(getCellText(cells[1])),
+            input: getCellText(cells[0]),
+            output: getCellText(cells[1]),
           });
         }
       });
@@ -98,6 +102,7 @@
       button.classList.remove("check");
     }, 800);
   };
+
   const showAlert = (msg) => alert("❌ " + msg);
 
   const sendToCPH = async (data) => {
@@ -130,6 +135,7 @@
     });
     cell.appendChild(btn);
   };
+
   const addCellBtns = () => {
     tablesEls.forEach((t) => {
       // thay thẻ p bằng div để copy thuần cũng không lỗi dòng trống thừa
@@ -143,21 +149,21 @@
   };
 
   const addTitleBtn = () => {
-    if (!titleEl) return;
     const btn = addBtn("title-copy-btn", ICONS.copy, (e) => {
       preventEvent(e);
       // trang DB chỉ xóa kí tự đặc biệt trong tiêu đề
-      const text = pageType === "db" ? titleEl.textContent.trim().replace(/[\\/:*?"<>|]/g, "") : getTitleText(true);
+      const text =
+        pageType === "db" ? titleEl.textContent.trim().replace(/[\\/:*?"<>|]/g, "") + ".sql" : getTitleText(true);
       navigator.clipboard.writeText(text);
       showStatus(e.currentTarget);
     });
-    titleEl.appendChild(btn);
+    pageType === "db" ? titleEl.prepend(btn) : titleEl.appendChild(btn);
   };
 
   const addActionBtns = () => {
-    if (!actionHostEl) return;
     const bar = document.createElement("div");
     bar.className = "action-bar";
+    // thêm nút Nhập vào VS Code
     const btn = addBtn("cph-btn", ICONS.vscode + "<span>Nhập vào VS Code</span>", async (e) => {
       preventEvent(e);
       const currenttarget = e.currentTarget; //! giữ nguyên
@@ -167,14 +173,11 @@
         return;
       }
       const success = await sendToCPH(data);
-      if (success) {
-        showStatus(currenttarget);
-      } else {
-        showAlert("Không tìm thấy CPH (VS Code)");
-      }
+      success ? showStatus(currenttarget) : showAlert("Không tìm thấy CPH (VS Code)");
     });
     bar.appendChild(btn);
 
+    // thêm nút chuyển đổi giữa classic và beta
     const code = getId();
     if (code) {
       const link = document.createElement("a");
@@ -212,7 +215,6 @@
   };
 
   const addSubmitBtn = () => {
-    if (!submitBtnEl || !submitHostEl || !fileInputEl) return;
     const btn = addBtn("submit-btn", "Nộp bài vừa sao chép", async (e) => {
       preventEvent(e);
       const error = await attachClipboardFile();
@@ -232,44 +234,86 @@
 
   let LAST_URL = null;
   let processTimer;
-  const process = () => {
-    const url = location.href;
-    if (url === LAST_URL) return;
-    LAST_URL = url;
-    $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-bar, .submit-btn").forEach((el) => el.remove());
+  let ensureTimer;
+  let ensureDeadline;
 
+  const process = () => {
+    $$(".copy-btn, .title-copy-btn, .cph-btn, .switch-btn, .action-bar, .submit-btn").forEach((el) => el.remove());
     pageType = getPageType();
     titleEl = submitBtnEl = fileInputEl = submitHostEl = actionHostEl = null;
     tablesEls = [];
-    if (pageType === "db") {
-      titleEl = $("h3.font-medium.text-lg.text-foreground");
-      addTitleBtn();
-    } else if (pageType) {
-      const isBeta = pageType === "beta";
-      titleEl = $(isBeta ? ".body-header h2" : ".submit__nav p span a.link--red");
-      tablesEls = $$(isBeta ? ".problem-container table" : ".submit__des table");
-      submitBtnEl = $(isBeta ? ".submit-status-container button.ant-btn-primary" : ".submit__pad__btn");
-      fileInputEl = $(isBeta ? ".submit-container input[type='file']" : "#fileInput");
-      submitHostEl = $(isBeta ? ".submit-container" : ".submit__pad");
-      actionHostEl = $(isBeta ? ".body-header" : ".submit.student__submit");
 
-      !isBeta && $(BANNER_EL)?.remove();
-      addTitleBtn();
-      addCellBtns();
-      addActionBtns();
-      addSubmitBtn();
-    }
+    const startEnsuring = () => {
+      clearInterval(ensureTimer);
+      ensureDeadline = Date.now() + 5000;
+      ensureTimer = setInterval(() => {
+        if (Date.now() > ensureDeadline) {
+          clearInterval(ensureTimer);
+          return;
+        }
+
+        if (pageType === "db") {
+          if (!titleEl) titleEl = $("h3.font-medium.text-lg.text-foreground");
+          const missingTitleBtn = !$(".title-copy-btn");
+          if (!missingTitleBtn) {
+            clearInterval(ensureTimer);
+            return;
+          }
+          if (missingTitleBtn && titleEl) addTitleBtn();
+        } else if (pageType) {
+          const isBeta = pageType === "beta";
+          if (!titleEl) titleEl = $(isBeta ? ".body-header h2" : ".submit__nav p span a.link--red");
+          if (!tablesEls.length) tablesEls = $$(isBeta ? ".problem-container table" : ".submit__des table");
+          if (!submitBtnEl)
+            submitBtnEl = $(isBeta ? ".submit-status-container button.ant-btn-primary" : ".submit__pad__btn");
+          if (!fileInputEl) fileInputEl = $(isBeta ? ".submit-container input[type='file']" : "#fileInput");
+          if (!submitHostEl) submitHostEl = $(isBeta ? ".submit-container" : ".submit__pad");
+          if (!actionHostEl) actionHostEl = $(isBeta ? ".body-header" : ".submit.student__submit");
+
+          const hasBanner = !isBeta && !!$(BANNER_EL);
+          const missingTitleBtn = !$(".title-copy-btn");
+          const missingCellBtn = !$(".copy-btn");
+          const missingActionBtns = !$(".cph-btn");
+          const missingSubmitBtn = !$(".submit-btn");
+
+          const readyBeta = isBeta && !missingTitleBtn && !missingCellBtn && !missingActionBtns && !missingSubmitBtn;
+          const readyClassic =
+            !isBeta && !missingTitleBtn && !missingCellBtn && !missingActionBtns && !missingSubmitBtn && !hasBanner;
+          if (readyBeta || readyClassic) {
+            clearInterval(ensureTimer);
+            return;
+          }
+
+          if (hasBanner) $(BANNER_EL)?.remove();
+          if (missingTitleBtn && titleEl) addTitleBtn();
+          if (missingCellBtn && tablesEls.length) addCellBtns();
+          if (missingActionBtns && actionHostEl) addActionBtns();
+          if (missingSubmitBtn && submitBtnEl && submitHostEl && fileInputEl) addSubmitBtn();
+        }
+      }, 100);
+    };
+
+    pageType && startEnsuring();
   };
 
-  const start = () => {
-    setTimeout(process, 500);
+  const start = async () => {
+    try {
+      useIdSeparator = (await chrome.storage.sync.get({ useIdSeparator: false })).useIdSeparator;
+    } catch {}
+    LAST_URL = location.href;
+    setTimeout(process, 100);
     const observer = new MutationObserver(() => {
       if (location.href !== LAST_URL) {
+        LAST_URL = location.href;
         clearTimeout(processTimer);
-        processTimer = setTimeout(process, 500);
+        processTimer = setTimeout(process, 100);
       }
     });
     observer.observe(document.body, { childList: true, subtree: true });
   };
+
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === "sync" && changes.useIdSeparator) useIdSeparator = !!changes.useIdSeparator.newValue;
+  });
   document.readyState !== "loading" ? start() : document.addEventListener("DOMContentLoaded", start);
 })();

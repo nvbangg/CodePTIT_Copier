@@ -28,9 +28,9 @@
 
 <br>
 
-![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo1.png)
-![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo2.png)
-![Demo3](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/main/demo/demo3.png)
+![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo1.png)
+![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo2.png)
+![Demo3](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo3.png)
 
 ---
 
