@@ -13,6 +13,7 @@
 - 📤 Hỗ trợ Nộp bài nhanh từ Clipboard với code vừa sao chép
 - ❌ Xóa banner "THỬ NGHIỆM PHIÊN BẢN MỚI" khi làm bài
 - 🔄 Thêm nút để chuyển đổi giữa trang beta và mặc định của một bài
+- 🔗 Thêm cho phép mở bài trong tab mới ở DB PTIT
 
 ## ⬇️ CÁCH CÀI ĐẶT
 
@@ -36,6 +37,7 @@
 ![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo1.png)
 ![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo2.png)
 ![Demo3](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo3.png)
+![Demo4](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo4.png)
 
 ---
 
