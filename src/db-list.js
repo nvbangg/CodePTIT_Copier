@@ -1,6 +1,9 @@
 (function () {
+  if (window.__dbListInit) return;
+  window.__dbListInit = true;
   let timer;
   const run = () => {
+    if (!/^\/exercise\/?$/.test(location.pathname)) return;
     clearTimeout(timer);
     timer = setTimeout(() => {
       document.querySelectorAll('div[role="button"]').forEach((el) => {
