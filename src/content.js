@@ -25,7 +25,7 @@
 
   const getPageType = () => {
     const { hostname, pathname } = location;
-    if (hostname === "db.ptit.edu.vn" && /\/question-detail\/[A-Za-z0-9_]+/.test(pathname)) return "db";
+    if (hostname === "db.ptit.edu.vn" && /\/question-detail\//.test(pathname)) return "db";
     if (hostname === "code.ptit.edu.vn") {
       if (/\/beta\/problems\/[A-Za-z0-9_]+/.test(pathname)) return "beta";
       if (/\/student\/question\/[A-Za-z0-9_]+/.test(pathname)) return "classic";
