@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const toggle = document.getElementById("id-separator-toggle");
+  const toggle = document.getElementById("tab-toggle");
 
   try {
     const result = await chrome.storage.sync.get({ useIdSeparator: false });

@@ -1,9 +1,12 @@
 # CodePTIT Copier
-
 > [!NOTE]
 > Sửa lỗi dòng trống thừa khi Copy trên CodePTIT. Tự động tạo File nhập sẵn Testcase trong VS Code. Hỗ trợ Nộp bài nhanh từ Clipboard
 
-[![Stars](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Like%20this%20project%3F%20Star%20it%20⭐&logo=github)](https://github.com/nvbangg/CodePTIT_Copier) &nbsp; [![Followers](https://img.shields.io/github/followers/nvbangg?label=Follow%20me&logo=github)](https://github.com/nvbangg) &nbsp; [![Sponsor](https://img.shields.io/badge/Sponsor%20this%20project-pink?style=social&logo=github-sponsors)](https://nvbangg.github.io/#donate)
+<div align="center">
+
+[![Stars](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo%20if%20useful%20⭐&logo=github)](https://github.com/nvbangg/CodePTIT_Copier) &ensp; [![Donate](https://img.shields.io/badge/Support%20this%20project-pink?style=social&logo=github-sponsors)](https://nvbangg.github.io/#donate)
+<br>👉 Other Tools: [nvbangg-tools](https://github.com/nvbangg/nvbangg-tools)
+</div> 
 
 ## 📌 TÍNH NĂNG
 
@@ -24,7 +27,7 @@
 [![Homepage](https://img.shields.io/badge/Homepage-github-blue?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier)](https://github.com/nvbangg/CodePTIT_Copier) [![Available in the Chrome Web Store](https://nvbangg.github.io/assets/images/chrome_webstore.png)](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
 
 ## 🛠️ (Thêm nếu cần) Code đổi tên tất cả file trong thư mục từ dạng "ID_001" sang dạng "ID001"
-- Lý do là hiện tại CPH luôn định dạng tên file là "ID_001" thay vì "ID001", nếu đã code xong không cần xem lại Testcase mà muốn đổi tên file sang dạng "ID001" thì sử dụng
+- Biết file CPH tạo luôn có "_" giữa chữ và số, nếu đã code xong không cần xem lại Testcase mà muốn đổi tên file sang dạng "ID001" thì sử dụng
 - Tải file [rename-file.py](https://github.com/nvbangg/CodePTIT_Copier/blob/main/rename-file.py) và di chuyển vào thư mục chứa các code cần đổi tên
 - Chạy file để đổi tên tất cả file trong thư mục đấy lẫn thư mục con bên trong nếu tên file dạng "ID_001"
 
@@ -36,8 +39,5 @@
 ![Demo4](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo4.png)
 
 ---
-
-## ⚖️ Privacy Policy & Legal
-
+## ⚖️ Privacy Policy
 - This project does not collect any data of any kind
-- Copyright (c) 2025 Nguyễn Văn Bằng (nvbangg, [github.com/nvbangg](https://github.com/nvbangg))

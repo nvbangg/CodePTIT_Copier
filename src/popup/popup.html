@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <title>CodePTIT Copier</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
+
   <body>
     <div class="popup">
       <div class="header">
@@ -13,24 +14,27 @@
       </div>
       <div class="option">
         <div>
-          <span>Copy mã dạng ID_001 thay vì dạng ID001</span>
-          <small>Biết CPH luôn đặt tên file thành dạng ID_001</small>
+          <span>Copy tên file có "_" giữa chữ và số</span>
+          <small>Biết file CPH tạo luôn có "_" giữa chữ và số</small>
         </div>
         <label class="toggle-btn">
-          <input type="checkbox" id="id-separator-toggle" />
+          <input type="checkbox" id="tab-toggle" />
           <span class="toggle-track"></span>
         </label>
       </div>
       <div class="footer-buttons">
         <a
           class="footer-button"
-          id="homepage-btn"
-          href="https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo"
+          href="https://chromewebstore.google.com/detail/ncckkgpgiplcmbmobjlffkbaaklohhbo"
           target="_blank"
           >🏠 Homepage</a
         >
-        <a class="footer-button" href="https://github.com/nvbangg/CodePTIT_Copier" target="_blank">&lt;/&gt; Source</a>
-        <a class="footer-button" href="https://nvbangg.github.io/#donate" target="_blank">❤️ Donate</a>
+        <a
+          class="footer-button"
+          href="https://github.com/nvbangg/CodePTIT_Copier"
+          target="_blank"
+          ><svg viewBox="0 0 16 16" width="14" height="14" fill="black" style="vertical-align:-2px"><path d="M8 0a8 8 0 0 0-2.53 15.6c.4.07.55-.17.55-.38v-1.33c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.88-1.16-.88-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.7 1.2 1.83.85 2.28.65.07-.5.27-.85.5-1.05-1.77-.2-3.64-.89-3.64-3.96 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.7 7.7 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.93.08 2.13.51.56.82 1.27.82 2.14 0 3.08-1.87 3.76-3.65 3.96.28.25.53.72.53 1.46v2.16c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg> GitHub</a
+        >
       </div>
     </div>
     <script src="popup.js"></script>
