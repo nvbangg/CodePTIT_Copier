@@ -1,11 +1,10 @@
-# CodePTIT Copier
+# [nvbangg/CodePTIT_Copier](https://github.com/nvbangg/Codeptit_Copier)
 > [!NOTE]
 > Sửa lỗi dòng trống thừa khi Copy trên CodePTIT. Tự động tạo File nhập sẵn Testcase trong VS Code. Hỗ trợ Nộp bài nhanh từ Clipboard
 
 <div align="center">
 
-[![Stars](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo%20if%20useful%20⭐&logo=github)](https://github.com/nvbangg/CodePTIT_Copier) &ensp; [![Donate](https://img.shields.io/badge/Support%20this%20project-pink?style=social&logo=github-sponsors)](https://nvbangg.github.io/#donate)
-<br>👉 Other Tools: [nvbangg-tools](https://github.com/nvbangg/nvbangg-tools)
+[![Stars](https://img.shields.io/github/stars/nvbangg/Codeptit_Copier?label=Star%20this%20repo%20if%20useful%20⭐&logo=github)](https://github.com/nvbangg/Codeptit_Copier)　[![Donate](https://img.shields.io/badge/Support-pink?style=social&logo=github-sponsors)](https://nvbangg.github.io/#donate)　[![Other Tools](https://img.shields.io/badge/%F0%9F%91%89%20Other%20Tools-nvbangg--tools-blue)](https://github.com/nvbangg/nvbangg-tools)
 </div> 
 
 ## 📌 TÍNH NĂNG
