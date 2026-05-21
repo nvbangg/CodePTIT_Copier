@@ -4,7 +4,8 @@
 
 <div align="center">
 
-[![Stars](https://img.shields.io/github/stars/nvbangg/Codeptit_Copier?label=Star%20this%20repo%20if%20useful%20⭐&logo=github)](https://github.com/nvbangg/Codeptit_Copier)　[![Donate](https://img.shields.io/badge/Support-pink?style=social&logo=github-sponsors)](https://nvbangg.github.io/#donate)　[![Other Tools](https://img.shields.io/badge/%F0%9F%91%89%20Other%20Tools-nvbangg--tools-blue)](https://github.com/nvbangg/nvbangg-tools)
+[![Stars](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo%20if%20useful%20%E2%AD%90&logo=github-sponsors)](https://github.com/nvbangg/CodePTIT_Copier)　[![GitHub](https://img.shields.io/badge/nvbangg-black?style=social&logo=github)](https://github.com/nvbangg)
+
 </div> 
 
 ## 📌 TÍNH NĂNG
