@@ -1,14 +1,22 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const toggle = document.getElementById("tab-toggle");
+(() => {
+  "use strict";
 
-  try {
-    const result = await chrome.storage.sync.get({ useIdSeparator: false });
-    toggle.checked = !!result.useIdSeparator;
-  } catch {}
+  const syncToggle = async (toggleId, storageKey, defaultVal = false) => {
+    const toggleEl = document.getElementById(toggleId);
+    if (!toggleEl) return;
 
-  toggle.addEventListener("change", async () => {
     try {
-      await chrome.storage.sync.set({ useIdSeparator: toggle.checked });
+      const syncData = await chrome.storage.sync.get({ [storageKey]: defaultVal });
+      toggleEl.checked = !!syncData[storageKey];
     } catch {}
+
+    toggleEl.addEventListener("change", () => {
+      chrome.storage.sync.set({ [storageKey]: toggleEl.checked }).catch(() => {});
+    });
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    syncToggle("tab-toggle", "useIdSeparator");
+    syncToggle("grades-toggle", "hideGrades");
   });
-});
+})();

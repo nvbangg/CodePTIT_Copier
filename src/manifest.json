@@ -1,15 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "CodePTIT Copier",
-  "version": "1.10.2",
-  "description": "Sửa lỗi dòng trống thừa khi Copy trên CodePTIT. Tự động tạo File nhập sẵn Testcase trong VS Code. Hỗ trợ Nộp bài nhanh từ Clipboard",
+  "name": "PTIT Helper",
+  "version": "2.0",
+  "description": "Bộ tiện ích hỗ trợ sinh viên PTIT",
   "author": "nvbangg (https://github.com/nvbangg)",
   "homepage_url": "https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo",
 
   "permissions": ["storage"],
 
   "action": {
-    "default_title": "CodePTIT Copier",
+    "default_title": "PTIT Helper",
     "default_popup": "popup/popup.html"
   },
 
@@ -23,13 +23,28 @@
     {
       "matches": ["https://code.ptit.edu.vn/*", "https://db.ptit.edu.vn/*"],
       "css": ["style.css"],
-      "js": ["js/content.js"],
+      "js": ["js/codeptit.js"],
       "run_at": "document_start"
     },
     {
       "matches": ["https://db.ptit.edu.vn/*"],
-      "js": ["js/db-list.js"],
+      "js": ["js/db-ptit.js"],
       "run_at": "document_idle",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://code.ptit.edu.vn/*",
+        "https://db.ptit.edu.vn/*",
+        "https://qldt.ptit.edu.vn/*"
+      ],
+      "js": ["js/options-bridge.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://db.ptit.edu.vn/*", "https://qldt.ptit.edu.vn/*"],
+      "js": ["js/hide-grades.js"],
+      "run_at": "document_start",
       "world": "MAIN"
     }
   ],

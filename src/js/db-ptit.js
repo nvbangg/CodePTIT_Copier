@@ -1,4 +1,6 @@
-(function () {
+(() => {
+  "use strict";
+
   if (window.__dbListInit) return;
   window.__dbListInit = true;
   const STORAGE_KEY = "dbExercisePage";
