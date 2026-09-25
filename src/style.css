@@ -3,7 +3,7 @@
   width: 26px;
   height: 26px;
   border-radius: 5px;
-  padding: 0px;
+  padding: 0;
   background: transparent;
   display: flex;
   align-items: center;
@@ -62,7 +62,7 @@
   display: inline-flex !important;
   align-items: center;
   gap: 6px;
-  white-space: wrap;
+  white-space: normal;
   border: none;
   outline: none !important;
   user-select: none;
@@ -80,7 +80,7 @@
 .switch-btn {
   border: 1px solid rgba(30, 144, 255, 0.4) !important;
   color: rgba(30, 144, 255, 0.8) !important;
-  background: 0 !important;
+  background: none !important;
 }
 
 .action-bar {

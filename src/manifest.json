@@ -36,13 +36,18 @@
       "matches": [
         "https://code.ptit.edu.vn/*",
         "https://db.ptit.edu.vn/*",
-        "https://qldt.ptit.edu.vn/*"
+        "https://qldt.ptit.edu.vn/*",
+        "https://slink.ptit.edu.vn/*"
       ],
       "js": ["js/options-bridge.js"],
       "run_at": "document_start"
     },
     {
-      "matches": ["https://db.ptit.edu.vn/*", "https://qldt.ptit.edu.vn/*"],
+      "matches": [
+        "https://db.ptit.edu.vn/*",
+        "https://qldt.ptit.edu.vn/*",
+        "https://slink.ptit.edu.vn/*"
+      ],
       "js": ["js/hide-grades.js"],
       "run_at": "document_start",
       "world": "MAIN"
