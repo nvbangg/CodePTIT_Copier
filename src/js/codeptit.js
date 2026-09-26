@@ -1,6 +1,10 @@
 (() => {
   "use strict";
 
+  // Tạm tắt cho đến khi hỗ trợ giao diện CodePTIT và DBPTIT mới.
+  const ENABLED = false;
+  if (!ENABLED) return;
+
   // Element
   let titleEl = null;
   let tablesEls = [];

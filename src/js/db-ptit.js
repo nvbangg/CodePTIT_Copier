@@ -1,6 +1,10 @@
 (() => {
   "use strict";
 
+  // Tạm tắt cho đến khi hỗ trợ giao diện DBPTIT mới.
+  const ENABLED = false;
+  if (!ENABLED) return;
+
   if (window.__dbListInit) return;
   window.__dbListInit = true;
   const STORAGE_KEY = "dbExercisePage";

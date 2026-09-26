@@ -235,7 +235,6 @@
   };
 
   document.addEventListener("DOMContentLoaded", () => {
-    syncToggle("tab-toggle", "useIdSeparator");
     syncToggle("grades-toggle", "hideGrades");
     initCalc();
   });
