@@ -16,5 +16,6 @@ const syncToggle = async (toggleId, storageKey, defaultValue = false) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   syncToggle("grades-toggle", "hideGrades");
+  syncToggle("drl-toggle", "autoReviewDrl", true);
   initGradeCalculator();
 });

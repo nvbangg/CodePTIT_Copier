@@ -13,7 +13,7 @@
     "default_popup": "popup/popup.html"
   },
 
-  "host_permissions": ["http://localhost:27121/*"],
+  "host_permissions": ["http://localhost:27121/*", "https://gwdu.ptit.edu.vn/*"],
 
   "background": {
     "service_worker": "service-worker.js"
@@ -50,6 +50,13 @@
       ],
       "js": ["content/hide-grades.js"],
       "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://slink.ptit.edu.vn/*"],
+      "css": ["content/slink-drl.css"],
+      "js": ["content/slink-drl.js"],
+      "run_at": "document_idle",
       "world": "MAIN"
     }
   ],
