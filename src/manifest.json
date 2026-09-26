@@ -16,19 +16,19 @@
   "host_permissions": ["http://localhost:27121/*"],
 
   "background": {
-    "service_worker": "js/background.js"
+    "service_worker": "service-worker.js"
   },
 
   "content_scripts": [
     {
       "matches": ["https://code.ptit.edu.vn/*", "https://db.ptit.edu.vn/*"],
-      "css": ["style.css"],
-      "js": ["js/codeptit.js"],
+      "css": ["content/codeptit.css"],
+      "js": ["content/codeptit.js"],
       "run_at": "document_start"
     },
     {
       "matches": ["https://db.ptit.edu.vn/*"],
-      "js": ["js/db-ptit.js"],
+      "js": ["content/dbptit.js"],
       "run_at": "document_idle",
       "world": "MAIN"
     },
@@ -39,7 +39,7 @@
         "https://qldt.ptit.edu.vn/*",
         "https://slink.ptit.edu.vn/*"
       ],
-      "js": ["js/options-bridge.js"],
+      "js": ["content/options-bridge.js"],
       "run_at": "document_start"
     },
     {
@@ -48,7 +48,7 @@
         "https://qldt.ptit.edu.vn/*",
         "https://slink.ptit.edu.vn/*"
       ],
-      "js": ["js/hide-grades.js"],
+      "js": ["content/hide-grades.js"],
       "run_at": "document_start",
       "world": "MAIN"
     }
