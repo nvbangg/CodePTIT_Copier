@@ -22,4 +22,17 @@
       syncAll(updated);
     }
   });
+
+  chrome.runtime.onMessage.addListener((msg) => {
+    if (msg?.action === "triggerDrlReview") {
+      window.dispatchEvent(new CustomEvent("ptit-drl-trigger", { detail: msg }));
+    }
+  });
+
+  window.addEventListener("ptit-drl-stat", (event) => {
+    chrome.runtime.sendMessage({
+      action: "drlStatUpdate",
+      ...event.detail
+    }).catch(() => {});
+  });
 })();

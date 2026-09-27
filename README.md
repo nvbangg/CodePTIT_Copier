@@ -1,16 +1,23 @@
-# [nvbangg/CodePTIT_Copier](https://github.com/nvbangg/Codeptit_Copier)
+# [PTIT Helper](https://github.com/nvbangg/PTIT-Helper)
+
 > [!NOTE]
-> Sửa lỗi dòng trống thừa khi Copy trên CodePTIT. Tự động tạo File nhập sẵn Testcase trong VS Code. Hỗ trợ Nộp bài nhanh từ Clipboard
+> Bộ công cụ tiện ích cho sinh viên PTIT
+> Source: https://github.com/nvbangg/PTIT_Docs
 
-<div align="center">
+<div align="center"><i>
 
-[![Stars](https://img.shields.io/github/stars/nvbangg/CodePTIT_Copier?label=Star%20this%20repo%20if%20useful%20%E2%AD%90&logo=github-sponsors)](https://github.com/nvbangg/CodePTIT_Copier)　[![GitHub](https://img.shields.io/badge/nvbangg-black?style=social&logo=github)](https://github.com/nvbangg)<br>
-👉 [Other Tools](https://github.com/nvbangg/nvbangg-projects#ptit)
+Maintained with ❤️ by **[@nvbangg](https://github.com/nvbangg)**  
+⭐ Star [this repository](https://github.com/nvbangg/PTIT-Helper) if you find it useful!
 
-</div> 
+</i></div>
 
 ## 📌 TÍNH NĂNG
 
+- Tính nhanh điểm tổng kết môn học
+- Tùy chọn ẩn điểm số/GPA trên các trang QLDT, Slink, DBPTIT
+- Hỗ trợ Ban cán sự duyệt nhanh phiếu điểm rèn luyện trên Slink
+
+### Các tính năng cũ:
 - 🧹 Sửa lỗi dòng trống thừa khi copy Testcase trên CodePTIT (cho cả trang beta và DB PTIT)
 - ✨ Tự động tạo File nhập sẵn Testcase trong VS Code
   - Ví dụ tự động tạo file `J03004_Chuan_Hoa_Xau_Ho_Ten_1.java` cho bài `CHUẨN HÓA XÂU HỌ TÊN - 1`
@@ -23,9 +30,11 @@
 
 ## ⬇️ CÁCH CÀI ĐẶT
 
-- 🌐 Cài đặt từ **Chrome Web Store**: [CodePTIT_Copier](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
+- 🌐 Cài đặt từ **Chrome Web Store**: [PTIT Helper](https://chromewebstore.google.com/detail/ncckkgpgiplcmbmobjlffkbaaklohhbo)
 
-[![Homepage](https://img.shields.io/badge/Homepage-github-blue?style=for-the-badge&logo=github&link=https%3A%2F%2Fgithub.com%2Fnvbangg%2FCodePTIT_Copier)](https://github.com/nvbangg/CodePTIT_Copier) [![Available in the Chrome Web Store](https://nvbangg.github.io/assets/images/chrome_webstore.png)](https://chromewebstore.google.com/detail/codeptit-copier/ncckkgpgiplcmbmobjlffkbaaklohhbo)
+[![Available in the Chrome Web Store](https://nvbangg.github.io/assets/images/chrome_webstore.png)](https://chromewebstore.google.com/detail/ncckkgpgiplcmbmobjlffkbaaklohhbo)
+
+<!--
 
 ## 🛠️ (Thêm nếu cần) Code đổi tên tất cả file trong thư mục từ dạng "ID_001" sang dạng "ID001"
 - Biết file CPH tạo luôn có "_" giữa chữ và số, nếu đã code xong không cần xem lại Testcase mà muốn đổi tên file sang dạng "ID001" thì sử dụng
@@ -37,8 +46,10 @@
 ![Demo1](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo1.png)
 ![Demo2](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo2.png)
 ![Demo3](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo3.png)
-![Demo4](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo4.png)
+![Demo4](https://raw.githubusercontent.com/nvbangg/CodePTIT_Copier/refs/heads/main/demo/demo4.png) -->
 
 ---
+
 ## ⚖️ Privacy Policy
+
 - This project does not collect any data of any kind

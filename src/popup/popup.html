@@ -9,35 +9,36 @@
   <body>
     <div class="popup">
       <div class="header">
-        <a
-          class="header-link homepage-link"
-          href="https://chromewebstore.google.com/detail/ncckkgpgiplcmbmobjlffkbaaklohhbo"
-          target="_blank"
-          title="Mở trong Chrome Web Store"
-        >
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M3 11.5 12 4l9 7.5" />
-            <path d="M5 10v10h14V10" />
-            <path d="M9 20v-6h6v6" />
-          </svg>
-          <span>Homepage</span>
-        </a>
         <div class="brand">
           <img src="../icon.png" alt="" />
           <h1>PTIT Helper</h1>
         </div>
-        <a
-          class="header-link github-link"
-          href="https://github.com/nvbangg/PTIT-Helper"
-          target="_blank"
-          title="Mở GitHub"
-          aria-label="Mở GitHub"
-        >
-          <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true">
-            <path d="M8 0a8 8 0 0 0-2.53 15.6c.4.07.55-.17.55-.38v-1.33c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.88-1.16-.88-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.7 1.2 1.83.85 2.28.65.07-.5.27-.85.5-1.05-1.77-.2-3.64-.89-3.64-3.96 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.7 7.7 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.93.08 2.13.51.56.82 1.27.82 2.14 0 3.08-1.87 3.76-3.65 3.96.28.25.53.72.53 1.46v2.16c0 .21.15.46.55.38A8 8 0 0 0 8 0Z" />
-          </svg>
-          <span>GitHub</span>
-        </a>
+        <div class="header-actions">
+          <a
+            class="header-icon-btn store-link"
+            href="https://chromewebstore.google.com/detail/ncckkgpgiplcmbmobjlffkbaaklohhbo"
+            target="_blank"
+            title="Mở trong Chrome Web Store"
+            aria-label="Mở trong Chrome Web Store"
+          >
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 11.5 12 4l9 7.5" />
+              <path d="M5 10v10h14V10" />
+              <path d="M9 20v-6h6v6" />
+            </svg>
+          </a>
+          <a
+            class="header-icon-btn github-link"
+            href="https://github.com/nvbangg/PTIT-Helper"
+            target="_blank"
+            title="Mở GitHub"
+            aria-label="Mở GitHub"
+          >
+            <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true">
+              <path d="M8 0a8 8 0 0 0-2.53 15.6c.4.07.55-.17.55-.38v-1.33c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.88-1.16-.88-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.7 1.2 1.83.85 2.28.65.07-.5.27-.85.5-1.05-1.77-.2-3.64-.89-3.64-3.96 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.7 7.7 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.93.08 2.13.51.56.82 1.27.82 2.14 0 3.08-1.87 3.76-3.65 3.96.28.25.53.72.53 1.46v2.16c0 .21.15.46.55.38A8 8 0 0 0 8 0Z" />
+            </svg>
+          </a>
+        </div>
       </div>
       <div class="calc-card" id="calc-card">
         <div class="calc-header">
@@ -163,19 +164,50 @@
         </label>
       </div>
 
-      <div class="option">
-        <div class="option-label">
-          <svg class="option-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      <details class="drl-card" id="drl-card">
+        <summary class="drl-summary">
+          <div class="drl-summary-title">
+            <svg class="drl-title-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+            <span>Duyệt điểm rèn luyện (Slink)</span>
+            <span class="info-help" title="Hỗ trợ Ban cán sự duyệt nhanh phiếu điểm rèn luyện trên Slink">?</span>
+          </div>
+          <svg class="drl-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
           </svg>
-          <span>Duyệt nhanh ĐRL Slink</span>
-          <span class="info-help" title="Hiển thị nút hỗ trợ duyệt tự động phiếu điểm rèn luyện lớp hành chính trên Slink">?</span>
+        </summary>
+        <div class="drl-body">
+          <div class="drl-option">
+            <div class="drl-option-label">
+              <span>Bao gồm cả sinh viên chưa gửi trước đó</span>
+              <span class="info-help" title="Khi bật, hệ thống sẽ duyệt cả những sinh viên chưa tự nộp phiếu điểm.">?</span>
+            </div>
+            <label class="toggle-btn sm">
+              <input type="checkbox" id="drl-unsubmitted-toggle" />
+              <span class="toggle-track"></span>
+            </label>
+          </div>
+          <div class="drl-actions">
+            <button type="button" class="drl-btn drl-save-btn" id="drl-save-btn" title="Lưu nháp điểm tối đa cho sinh viên">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+              </svg>
+              <span>Lưu & Gửi sau</span>
+            </button>
+            <button type="button" class="drl-btn drl-submit-btn" id="drl-submit-btn" title="Chấm điểm tối đa và nộp chính thức cho cả lớp">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+              <span>Gửi luôn</span>
+            </button>
+          </div>
+          <div class="drl-stat" id="drl-stat" hidden></div>
         </div>
-        <label class="toggle-btn">
-          <input type="checkbox" id="drl-toggle" />
-          <span class="toggle-track"></span>
-        </label>
-      </div>
+      </details>
     </div>
     <script type="module" src="popup.js"></script>
   </body>

@@ -1,7 +1,6 @@
 (() => {
   "use strict";
 
-  const FAB_ID = "ptit-drl-auto-fab";
   let isRunning = false;
   let isCancelled = false;
   let capturedAuth = null;
@@ -29,51 +28,12 @@
     return origSetReqHeader.apply(this, arguments);
   };
 
-  const isAutoReviewActive = () => {
-    try {
-      return (
-        (document.documentElement?.dataset?.autoReviewDrl ??
-          sessionStorage.getItem("ptit_autoReviewDrl")) !== "false"
-      );
-    } catch {
-      return true;
-    }
-  };
-
-  const isDrlPage = () =>
-    location.pathname.includes("/lop-hanh-chinh") &&
-    location.hash.includes("diem-ren-luyen");
-
-  const showToast = (title, message, type = "success") => {
-    document.querySelector(".ptit-drl-toast")?.remove();
-    const toast = document.createElement("div");
-    toast.className = `ptit-drl-toast ${type}`;
-
-    const content = document.createElement("div");
-    const titleEl = document.createElement("div");
-    titleEl.className = "ptit-drl-toast-title";
-    titleEl.textContent = title;
-
-    const descEl = document.createElement("div");
-    descEl.textContent = message;
-
-    content.append(titleEl, descEl);
-    toast.appendChild(content);
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-      toast.style.opacity = "0";
-      toast.style.transform = "translateY(12px)";
-      setTimeout(() => toast.remove(), 300);
-    }, 5000);
-  };
-
-  const updateFabUi = (text, running = false) => {
-    const fab = document.getElementById(FAB_ID);
-    if (!fab) return;
-    fab.classList.toggle("running", running);
-    const label = fab.querySelector(".ptit-drl-label");
-    if (label) label.textContent = text;
+  const notifyStat = (message, isDone = false, isError = false) => {
+    window.dispatchEvent(
+      new CustomEvent("ptit-drl-stat", {
+        detail: { message, isDone, isError }
+      })
+    );
   };
 
   const getAuthHeader = () => {
@@ -101,6 +61,18 @@
     }
   };
 
+  const isBcsSubmitted = (student) => {
+    if (student.trangThaiNopBCS?.trim() === "Đã gửi") return true;
+    const bcs = (student.diemCham || []).find((d) => d.vaiTro === "Ban cán sự");
+    return bcs?.trangThaiNopBCS?.trim() === "Đã gửi";
+  };
+
+  const hasStudentSubmitted = (student) => {
+    if (student.trangThaiNopSV?.trim() === "Đã gửi") return true;
+    const sv = (student.diemCham || []).find((d) => d.vaiTro === "Sinh viên");
+    return sv?.trangThaiNopSV?.trim() === "Đã gửi";
+  };
+
   const getSsoId = (students = []) => {
     try {
       const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -115,22 +87,22 @@
     return null;
   };
 
-  const runBatchApiReview = async () => {
+  const runBatchApiReview = async (submitDirectly = false, includeUnsubmitted = false) => {
     if (isRunning) {
       isCancelled = true;
-      updateFabUi("Đang dừng lại...");
+      notifyStat("Đang dừng tiến trình...", true, false);
       return;
     }
 
     const context = getDrlContext();
     if (!context?.dotChamDiemId || !context?.lopHanhChinh) {
-      showToast("Lỗi", "Chưa xác định được lớp. Hãy chọn lớp trên trang trước", "error");
+      notifyStat("Chưa xác định được lớp. Hãy mở bảng điểm trên Slink trước!", true, true);
       return;
     }
 
     const authHeader = getAuthHeader();
     if (!authHeader) {
-      showToast("Lỗi", "Không tìm thấy token đăng nhập Slink. Vui lòng tải lại trang!", "error");
+      notifyStat("Không tìm thấy token đăng nhập Slink. Hãy tải lại trang Slink!", true, true);
       return;
     }
 
@@ -138,7 +110,8 @@
 
     isRunning = true;
     isCancelled = false;
-    updateFabUi("Đang lấy danh sách...", true);
+    const actionDesc = submitDirectly ? "gửi chính thức" : "lưu nháp";
+    notifyStat(`Đang tải danh sách sinh viên...`, false, false);
 
     try {
       const conditionParam = encodeURIComponent(JSON.stringify(context));
@@ -149,26 +122,57 @@
 
       const listJson = await listRes.json();
       const students = listJson.data?.result || [];
-      const targetStudents = students.filter((s) => s.trangThaiNopBCS !== "Đã gửi");
+      const alreadySubmittedBcs = students.filter(isBcsSubmitted);
+      const pendingBcsStudents = students.filter((s) => !isBcsSubmitted(s));
+
+      if (pendingBcsStudents.length === 0) {
+        notifyStat("Tất cả sinh viên trong lớp đã ở trạng thái Đã gửi.", true, false);
+        return;
+      }
+
+      const targetStudents = includeUnsubmitted
+        ? pendingBcsStudents
+        : pendingBcsStudents.filter(hasStudentSubmitted);
+      const unsubmittedSvCount = pendingBcsStudents.length - targetStudents.length;
 
       if (targetStudents.length === 0) {
-        showToast("Hoàn tất", "Tất cả sinh viên đã ở trạng thái Đã gửi", "success");
+        const skipParts = [];
+        if (alreadySubmittedBcs.length > 0) skipParts.push(`${alreadySubmittedBcs.length} SV đã gửi`);
+        if (unsubmittedSvCount > 0) skipParts.push(`${unsubmittedSvCount} SV chưa tự nộp`);
+        notifyStat(
+          `Không có sinh viên nào cần duyệt (đã bỏ qua ${skipParts.join(", ")}).`,
+          true,
+          false
+        );
         return;
       }
 
       const ssoId = getSsoId(students);
-      const idKhaoSat =
-        students.find((s) => s.diemCham?.[0]?.idKhaoSat)?.diemCham[0].idKhaoSat ||
-        "66c2feeb1eaf4891a9dbf1e3";
+      let idKhaoSat = null;
+      let maxTemplate = null;
+      let maxScore = -Infinity;
 
-      const template = students.find((s) => s.diemCham?.[0]?.danhSachTraLoi?.length > 0)
-        ?.diemCham[0].danhSachTraLoi;
+      for (const s of students) {
+        for (const dc of s.diemCham || []) {
+          if (!idKhaoSat && dc.idKhaoSat) idKhaoSat = dc.idKhaoSat;
+          if (dc.danhSachTraLoi?.length > 0) {
+            const score = dc.danhSachTraLoi.reduce((sum, a) => sum + (Number(a.traLoiText) || 0), 0);
+            if (score > maxScore) {
+              maxScore = score;
+              maxTemplate = dc.danhSachTraLoi;
+            }
+          }
+        }
+      }
 
-      if (!template || template.length === 0) {
+      if (!idKhaoSat) {
+        throw new Error("Không thể xác định đợt khảo sát từ phiếu điểm lớp");
+      }
+      if (!maxTemplate || maxTemplate.length === 0) {
         throw new Error("Không thể xác định danh sách tiêu chí từ phiếu điểm lớp");
       }
 
-      const maxAnswers = template.map((a) => ({
+      const maxAnswers = maxTemplate.map((a) => ({
         idCauHoi: a.idCauHoi,
         traLoiText: a.traLoiText || "0"
       }));
@@ -180,22 +184,22 @@
 
       let successCount = 0;
       for (let idx = 0; idx < targetStudents.length; idx++) {
-        if (isCancelled || !isAutoReviewActive()) break;
+        if (isCancelled) break;
 
         const student = targetStudents[idx];
         const studentName = student.hoTen || student.maSinhVien || `SV #${idx + 1}`;
-        updateFabUi(`Duyệt: ${idx + 1}/${targetStudents.length} (${studentName})`, true);
+        notifyStat(`Đang ${actionDesc}: ${idx + 1}/${targetStudents.length} (${studentName})...`, false, false);
 
         const payload = {
           danhSachTraLoi: maxAnswers,
-          guiNgay: false,
+          guiNgay: submitDirectly,
           idDot: context.dotChamDiemId,
           idDotChamDiemRenLuyen: context.dotChamDiemId,
           idKhaoSat,
           nguoiTraLoi: "Ban cán sự",
           ssoId: ssoId || student.ssoId,
           ssoIdSinhVien: student.ssoId,
-          trangThaiNopBCS: "Lưu"
+          trangThaiNopBCS: submitDirectly ? "Đã gửi" : "Lưu"
         };
 
         const saveRes = await fetch("https://gwdu.ptit.edu.vn/slink/cau-tra-loi-khao-sat/me", {
@@ -209,71 +213,27 @@
       }
 
       if (successCount > 0) {
-        showToast(
-          "Thành công",
-          `Đã lưu điểm tối đa qua API cho ${successCount}/${targetStudents.length} sinh viên! Vui lòng tải lại bảng.`
+        const skipParts = [];
+        if (alreadySubmittedBcs.length > 0) skipParts.push(`${alreadySubmittedBcs.length} SV đã gửi`);
+        if (unsubmittedSvCount > 0) skipParts.push(`${unsubmittedSvCount} SV chưa nộp`);
+        const skipNote = skipParts.length > 0 ? ` (bỏ qua ${skipParts.join(", ")})` : "";
+        notifyStat(
+          `Đã ${actionDesc} điểm tối đa cho ${successCount}/${targetStudents.length} sinh viên${skipNote}!`,
+          true,
+          false
         );
       }
     } catch (err) {
-      showToast("Lỗi", err.message, "error");
+      notifyStat(err.message, true, true);
     } finally {
       isRunning = false;
       isCancelled = false;
-      updateFabUi("Duyệt nhanh ĐRL");
     }
   };
 
-  const mountFab = () => {
-    if (!isAutoReviewActive() || !isDrlPage()) {
-      if (isRunning) isCancelled = true;
-      document.getElementById(FAB_ID)?.remove();
-      return;
-    }
-
-    if (document.getElementById(FAB_ID)) return;
-
-    const fab = document.createElement("button");
-    fab.id = FAB_ID;
-    fab.type = "button";
-    fab.className = "ptit-drl-fab";
-    fab.title = "Tự động điền điểm tối đa và Lưu & Gửi sau qua API cho cả lớp";
-
-    const icon = document.createElement("span");
-    icon.className = "ptit-drl-fab-icon";
-    icon.textContent = "⚡";
-
-    const spinner = document.createElement("div");
-    spinner.className = "ptit-drl-fab-spinner";
-
-    const label = document.createElement("span");
-    label.className = "ptit-drl-label";
-    label.textContent = "Duyệt nhanh ĐRL";
-
-    const stopBadge = document.createElement("span");
-    stopBadge.className = "ptit-drl-stop-badge";
-    stopBadge.textContent = "✕ Dừng";
-
-    fab.append(icon, spinner, label, stopBadge);
-    fab.addEventListener("click", runBatchApiReview);
-    document.body.appendChild(fab);
-  };
-
-  const initDrlObserver = () => {
-    mountFab();
-    window.addEventListener("hashchange", mountFab);
-    window.addEventListener("popstate", mountFab);
-
-    const observer = new MutationObserver(() => mountFab());
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-auto-review-drl"]
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-  };
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initDrlObserver);
-  } else {
-    initDrlObserver();
-  }
+  window.addEventListener("ptit-drl-trigger", (event) => {
+    const submitDirectly = Boolean(event.detail?.submitDirectly);
+    const includeUnsubmitted = Boolean(event.detail?.includeUnsubmitted);
+    runBatchApiReview(submitDirectly, includeUnsubmitted);
+  });
 })();

@@ -2,11 +2,11 @@
   "manifest_version": 3,
   "name": "PTIT Helper",
   "version": "2.0",
-  "description": "Bộ tiện ích hỗ trợ sinh viên PTIT",
+  "description": "Bộ công cụ tiện ích cho sinh viên PTIT",
   "author": "nvbangg (https://github.com/nvbangg)",
   "homepage_url": "https://chromewebstore.google.com/detail/ncckkgpgiplcmbmobjlffkbaaklohhbo",
 
-  "permissions": ["storage"],
+  "permissions": ["storage", "activeTab"],
 
   "action": {
     "default_title": "PTIT Helper",
@@ -54,7 +54,6 @@
     },
     {
       "matches": ["https://slink.ptit.edu.vn/*"],
-      "css": ["content/slink-drl.css"],
       "js": ["content/slink-drl.js"],
       "run_at": "document_idle",
       "world": "MAIN"
