@@ -1,7 +1,7 @@
 # [PTIT Helper](https://github.com/nvbangg/PTIT-Helper)
 
 > [!NOTE]
-> Bộ công cụ tiện ích cho sinh viên PTIT
+> Bộ công cụ tiện ích cho sinh viên PTIT  
 > Source: https://github.com/nvbangg/PTIT_Docs
 
 <div align="center"><i>
@@ -18,6 +18,7 @@ Maintained with ❤️ by **[@nvbangg](https://github.com/nvbangg)**
 - Hỗ trợ Ban cán sự duyệt nhanh phiếu điểm rèn luyện trên Slink
 
 ### Các tính năng cũ:
+
 - 🧹 Sửa lỗi dòng trống thừa khi copy Testcase trên CodePTIT (cho cả trang beta và DB PTIT)
 - ✨ Tự động tạo File nhập sẵn Testcase trong VS Code
   - Ví dụ tự động tạo file `J03004_Chuan_Hoa_Xau_Ho_Ten_1.java` cho bài `CHUẨN HÓA XÂU HỌ TÊN - 1`
