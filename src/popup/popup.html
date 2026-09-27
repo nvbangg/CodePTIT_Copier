@@ -21,18 +21,47 @@
             title="Mở trong Chrome Web Store"
             aria-label="Mở trong Chrome Web Store"
           >
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 11.5 12 4l9 7.5" />
-              <path d="M5 10v10h14V10" />
-              <path d="M9 20v-6h6v6" />
+            <svg viewBox="0 0 256 223" width="18" height="18" aria-hidden="true">
+              <defs>
+                <path d="M255.98,0 L0,0 L0,204.84 C0,214.47 7.81,222.3 17.46,222.3 L238.54,222.3 C248.17,222.3 256,214.49 256,204.84 L255.98,0 Z" id="cws-bag"></path>
+                <linearGradient x1="0%" y1="50%" x2="100%" y2="50%" id="cws-red">
+                  <stop stop-color="#D93025" offset="0%"></stop>
+                  <stop stop-color="#EA4335" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient x1="74.94%" y1="95.83%" x2="19.81%" y2="-4.16%" id="cws-green">
+                  <stop stop-color="#1E8E3E" offset="0%"></stop>
+                  <stop stop-color="#34A853" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient x1="59.9%" y1="-0.13%" x2="21.42%" y2="99.86%" id="cws-yellow">
+                  <stop stop-color="#FBBC04" offset="0%"></stop>
+                  <stop stop-color="#FCC934" offset="100%"></stop>
+                </linearGradient>
+                <mask id="cws-mask" fill="white">
+                  <use href="#cws-bag"></use>
+                </mask>
+              </defs>
+              <g>
+                <use href="#cws-bag" fill="#F1F3F4"></use>
+                <rect fill="#E8EAED" x="0" y="0" width="256" height="111.74"></rect>
+                <path d="M157.08,47.73 L98.91,47.73 C92.47,47.73 87.27,42.52 87.27,36.09 C87.27,29.66 92.47,24.45 98.91,24.45 L157.08,24.45 C163.51,24.45 168.71,29.66 168.71,36.09 C168.71,42.51 163.51,47.73 157.08,47.73 Z" fill="#FFFFFF"></path>
+                <g mask="url(#cws-mask)">
+                  <g transform="translate(17.46, 94.29)">
+                    <path d="M14.81,55.26 L30.05,101.75 L62.69,138.18 L110.54,55.27 L206.26,55.26 C187.15,22.21 151.44,0 110.54,0 C69.63,0 33.93,22.21 14.81,55.26 Z" fill="url(#cws-red)"></path>
+                    <path d="M110.52,221.11 L143.16,184.66 L158.38,138.18 L62.67,138.18 L14.81,55.26 C-4.24,88.33 -5.63,130.38 14.83,165.82 C35.27,201.25 72.37,221.07 110.52,221.11 Z" fill="url(#cws-green)"></path>
+                    <path d="M206.26,55.27 L110.54,55.27 L158.4,138.18 L110.54,221.11 C148.7,221.07 185.8,201.25 206.24,165.82 C226.71,130.38 225.31,88.35 206.26,55.27 Z" fill="url(#cws-yellow)"></path>
+                    <circle fill="#F1F3F4" cx="110.54" cy="110.54" r="55.26"></circle>
+                    <circle fill="#1A73E8" cx="110.54" cy="110.54" r="44.9"></circle>
+                  </g>
+                </g>
+              </g>
             </svg>
           </a>
           <a
             class="header-icon-btn github-link"
             href="https://github.com/nvbangg/PTIT-Helper"
             target="_blank"
-            title="Mở GitHub"
-            aria-label="Mở GitHub"
+            title="Mở GitHub Repository"
+            aria-label="Mở GitHub Repository"
           >
             <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor" aria-hidden="true">
               <path d="M8 0a8 8 0 0 0-2.53 15.6c.4.07.55-.17.55-.38v-1.33c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.88-1.16-.88-1.16-.72-.5.06-.49.06-.49.8.06 1.22.82 1.22.82.7 1.2 1.83.85 2.28.65.07-.5.27-.85.5-1.05-1.77-.2-3.64-.89-3.64-3.96 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82a7.7 7.7 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.93.08 2.13.51.56.82 1.27.82 2.14 0 3.08-1.87 3.76-3.65 3.96.28.25.53.72.53 1.46v2.16c0 .21.15.46.55.38A8 8 0 0 0 8 0Z" />

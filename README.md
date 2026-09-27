@@ -4,7 +4,7 @@
 > Bộ công cụ tiện ích cho sinh viên PTIT  
 > Source: https://github.com/nvbangg/PTIT_Docs
 
-## 📌 TÍNH NĂNG
+## ✨ Tính năng
 
 - Tính nhanh điểm tổng kết môn học
 - Tùy chọn ẩn điểm số/GPA trên các trang QLDT, Slink, DBPTIT
@@ -22,7 +22,7 @@
 - ❌ Xóa banner "THỬ NGHIỆM PHIÊN BẢN MỚI" khi làm bài
 - 🔄 Thêm nút để chuyển đổi giữa trang beta và mặc định của một bài
 - 🔗 Thêm cho phép mở bài trong tab mới và khôi phục trang của bài đã mở khi quay lại trên DB PTIT
-</details> 
+</details>
 
 ## ⬇️ CÀI ĐẶT
 
@@ -48,10 +48,9 @@
 
 <div align="center"><i>
 
-Maintained with ❤️ by **[@nvbangg](https://github.com/nvbangg)**  
+Maintained with ❤️ by **[@nvbangg](https://github.com/nvbangg)**
 
 <a href="https://github.com/nvbangg/PTIT-Helper"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&duration=1500&pause=1000&color=FF4F81&center=true&vCenter=true&width=490&lines=%E2%AD%90+Star+this+repo+if+you+find+it+useful!" alt="Typing SVG" /></a>
-
 
 </i></div>
 

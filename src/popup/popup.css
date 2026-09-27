@@ -57,34 +57,17 @@ button {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 1.5px solid;
+  border: 1.5px solid #cbd5e1;
+  background: white;
+  color: #24292f;
   text-decoration: none;
   transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 .header-icon-btn:hover {
   transform: scale(1.06);
-}
-
-.store-link {
-  color: #0369a1;
-  border-color: #7dd3fc;
-  background: #e0f2fe;
-}
-.store-link:hover {
-  color: #075985;
-  border-color: #38bdf8;
-  background: #bae6fd;
-}
-
-.github-link {
-  color: #24292f;
-  border-color: #cbd5e1;
-  background: white;
-}
-.github-link:hover {
-  color: #000;
   border-color: #94a3b8;
   background: #f1f5f9;
+  color: #000;
 }
 
 .option {
