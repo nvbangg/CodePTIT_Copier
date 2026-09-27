@@ -6,7 +6,7 @@
   "author": "nvbangg (https://github.com/nvbangg)",
   "homepage_url": "https://chromewebstore.google.com/detail/ncckkgpgiplcmbmobjlffkbaaklohhbo",
 
-  "permissions": ["storage", "activeTab"],
+  "permissions": ["storage"],
 
   "action": {
     "default_title": "PTIT Helper",
