@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > Bộ công cụ tiện ích cho sinh viên PTIT  
-> Source: https://github.com/nvbangg/PTIT_Docs
+> Source: https://github.com/nvbangg/PTIT-Docs
 
 ## ✨ Tính năng
 
