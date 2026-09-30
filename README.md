@@ -4,7 +4,7 @@
 > Bộ công cụ tiện ích cho sinh viên PTIT  
 > Source: https://github.com/nvbangg/PTIT-Docs
 
-## ✨ Tính năng
+## 🔥 Tính năng
 
 - Tính nhanh điểm tổng kết môn học
 - Tùy chọn ẩn điểm số/GPA trên các trang QLDT, Slink, DBPTIT
